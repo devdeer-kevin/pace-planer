@@ -1,10 +1,10 @@
 "use client";
 
-import { ArrowPathIcon, ArrowUturnLeftIcon } from "@heroicons/react/16/solid";
+import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { ChangeEvent, useState, KeyboardEvent } from "react";
 
 export default function finishTimeComponent() {
-  const [inputTime, setInputTime] = useState("");
+  const [inputTime, setInputTime] = useState("06:14");
   const [loading, setLoading] = useState(false);
   const [finishTimeMarathon, setFinishTimeMarathon] = useState("");
   const [finishTimeHalfMarathon, setFinishTimeHalfMarathon] = useState("");
@@ -43,7 +43,7 @@ export default function finishTimeComponent() {
   };
 
   const resetPace = () => {
-    setInputTime("");
+    setInputTime("06:14");
     setFinishTimeMarathon("");
     setFinishTimeHalfMarathon("");
     setFinishTime10K("");

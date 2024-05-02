@@ -1,6 +1,6 @@
-# Pace Planer
+# Pace Planer [alpha]
 
-Pace Planer is an intuitive and responsive app designed to help runners calculate their target time for various distances based on their pace.
+Pace Planer is an intuitive and responsive app designed to help runners calculate their target time for various distances based on their pace. Currently in alpha.
 
 ## Features
 

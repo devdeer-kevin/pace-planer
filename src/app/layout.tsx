@@ -21,14 +21,14 @@ export default function RootLayout({
         <main className="flex min-h-screen flex-col items-center justify-center">
           <nav className="fixed top-0 w-full">
             <div className="flex flex-row justify-between p-4">
-              <div>
+              <div className="flex flex-row gap-2">
                 <Link href="/">
                   <h1 className="text-4xl font-bold text-center text-slate-700">
                     Pace Planer
                   </h1>
                 </Link>
+                <div className="text-yellow-400 font-mono text-sm">alpha</div>
               </div>
-              <div className="flex flex-row gap-4"></div>
             </div>
           </nav>
           <div className="max-w-4xl items-center justify-center font-mono text-sm flex-col gap-4">

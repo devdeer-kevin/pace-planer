@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <main className="flex min-h-screen flex-col items-center justify-center">
-          <nav className="fixed top-0 w-full">
+          <nav className="fixed top-0 w-full bg-slate-950">
             <div className="flex flex-row justify-between p-4">
               <div className="flex flex-row gap-2">
                 <Link href="/">

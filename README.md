@@ -4,8 +4,12 @@ Pace Planer is an intuitive and responsive app designed to help runners calculat
 
 ## Features
 
-- **Pace Calculation**: Enter your desired pace to see the corresponding finish time or vice versa for your race distance.
-- **Distance Support**: Supports a variety of distances, including 5K, 10K, half-marathon, and marathon.
+- **Pace Calculation**: Enter your desired pace to see the corresponding finish time for your race distance.
+- **Distance Support**: Supports a variety of distances, including 1Mile, 5K, 10K, half-marathon, and marathon.
+
+## Known Issue
+
+- **Inaccurate Calculation**: I actively pursue solutions for inaccurate calculations in specific use cases and value your patience as I aim to enhance precision in my next releases.
 
 ## Installation
 

@@ -53,8 +53,8 @@ export default function finishTimeComponent() {
 
   return (
     <>
-      <div className="flex flex-col items-start gap-4 text-center">
-        <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg p-12 min-h-[194px] min-w-[307px]">
+      <div className="flex flex-col items-start gap-4">
+        <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg sm:p-12 p-6 sm:min-h-[194px] min-w-[307px]">
           <div>
             {finishTimeMarathon ? (
               <p className="text-slate-50 font-bold">Deine Pace</p>
@@ -93,7 +93,7 @@ export default function finishTimeComponent() {
             </div>
           )}
         </div>
-        <div className="flex flex-col items-start w-full bg-slate-900 rounded-lg p-12">
+        <div className="flex flex-col items-start w-full bg-slate-900 rounded-lg sm:p-12 p-6">
           <div className="text-left">
             <div className="text-left">
               <label className="text-slate-600 font-bold text-sm h-4">
@@ -109,36 +109,52 @@ export default function finishTimeComponent() {
             </div>
             <div className="text-left">
               <label className="text-slate-600 font-bold text-sm h-4">5K</label>
-              <p className="text-xl text-yellow-400 h-8 font-mono">
-                {finishTime5K ? <>{finishTime5K}</> : "00:00:00"}
-              </p>
+              {loading ? (
+                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
+              ) : (
+                <p className="text-xl text-yellow-400 h-8 font-mono">
+                  {finishTime5K ? <>{finishTime5K}</> : "00:00:00"}
+                </p>
+              )}
             </div>
             <div className="text-left">
               <label className="text-slate-600 font-bold text-sm h-4">
                 10K
               </label>
-              <p className="text-xl text-yellow-400 h-8 font-mono">
-                {finishTime10K ? <>{finishTime10K}</> : "00:00:00"}
-              </p>
+              {loading ? (
+                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
+              ) : (
+                <p className="text-xl text-yellow-400 h-8 font-mono">
+                  {finishTime10K ? <>{finishTime10K}</> : "00:00:00"}
+                </p>
+              )}
             </div>
             <div className="text-left">
               <label className="text-slate-600 font-bold text-sm h-4">
                 Halbmarathon
               </label>
-              <p className="text-xl text-yellow-400 h-8 font-mono">
-                {finishTimeHalfMarathon ? (
-                  <>{finishTimeHalfMarathon}</>
-                ) : (
-                  "00:00:00"
-                )}
-              </p>
+              {loading ? (
+                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
+              ) : (
+                <p className="text-xl text-yellow-400 h-8 font-mono">
+                  {finishTimeHalfMarathon ? (
+                    <>{finishTimeHalfMarathon}</>
+                  ) : (
+                    "00:00:00"
+                  )}
+                </p>
+              )}
             </div>
             <label className="text-slate-600 font-bold text-sm h-4">
               Marathon
             </label>
-            <p className="text-xl text-yellow-400 h-8 font-mono">
-              {finishTimeMarathon ? <>{finishTimeMarathon}</> : "00:00:00"}
-            </p>
+            {loading ? (
+              <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
+            ) : (
+              <p className="text-xl text-yellow-400 h-8 font-mono">
+                {finishTimeMarathon ? <>{finishTimeMarathon}</> : "00:00:00"}
+              </p>
+            )}
           </div>
         </div>
         <div className="h-8 w-full">
@@ -148,7 +164,7 @@ export default function finishTimeComponent() {
                 onClick={resetPace}
                 className="p-2 border border-1 border-yellow-400 text-yellow-400 rounded-md"
               >
-                Weitere Pace berechnen
+                Erneut berechnen
               </button>
             </div>
           )}

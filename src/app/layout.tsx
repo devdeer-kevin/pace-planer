@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Pace Planer",
   description:
     "Calculate your target running time for various distances based on your pace with this easy-to-use app.",
+  robots: "index, follow",
 };
 
 export default function RootLayout({

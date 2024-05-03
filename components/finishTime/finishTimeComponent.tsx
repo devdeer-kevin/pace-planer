@@ -57,9 +57,9 @@ export default function finishTimeComponent() {
         <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg sm:p-12 p-6 sm:min-h-[194px] min-w-[307px]">
           <div>
             {finishTimeMarathon ? (
-              <p className="text-slate-50 font-bold">Deine Pace</p>
+              <p className="text-slate-50 font-bold text-center">Deine Pace</p>
             ) : (
-              <p className="text-slate-50 font-bold">
+              <p className="text-slate-50 font-bold text-center">
                 Berechne deine Zielzeiten
               </p>
             )}
@@ -69,7 +69,7 @@ export default function finishTimeComponent() {
               {inputTime}
             </p>
           ) : (
-            <div className="flex flex-row gap-4 items-end">
+            <div className="flex flex-row justify-center gap-4 items-end">
               <div className="flex flex-col gap-2 text-left">
                 <label className="text-slate-500 text-xs h-4 font-light">
                   Pace in m/km

@@ -1,15 +1,15 @@
-# Pace Planer [alpha]
+# Pace Planer [beta]
 
-Pace Planer is an intuitive and responsive app designed to help runners calculate their target time for various distances based on their pace. Currently in alpha.
+Pace Planer is an intuitive and responsive app designed to help runners calculate their target time for various distances based on their pace. Currently in beta.
 
 ## Features
 
 - **Pace Calculation**: Enter your desired pace to see the corresponding finish time for your race distance.
 - **Distance Support**: Supports a variety of distances, including 1Mile, 5K, 10K, half-marathon, and marathon.
 
-## Known Issue
+## Known Issues
 
-- **Inaccurate Calculation**: I actively pursue solutions for inaccurate calculations in specific use cases and value your patience as I aim to enhance precision in my next releases.
+-
 
 ## Installation
 

@@ -28,7 +28,7 @@ export default function RootLayout({
                     Pace Planer
                   </h1>
                 </Link>
-                <div className="text-yellow-400 font-mono text-sm">alpha</div>
+                <div className="text-yellow-400 font-mono text-sm">beta</div>
               </div>
             </div>
           </nav>

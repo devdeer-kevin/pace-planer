@@ -13,18 +13,13 @@ export async function POST(req: NextRequest) {
   const pace = Number(rawPace);
 
   // Define distances
-  const marathonLength = 42.195;
-  const halfMarathonLength = 21.0975;
-  const tenKLength = 10;
-  const fiveKLength = 5;
-  const oneMileLength = 1.6;
-
-  // Calculate finish times for various distances
-  const finishTimeMarathon = (marathonLength * pace) / 60;
-  const finishTimeHalfMarathon = (halfMarathonLength * pace) / 60;
-  const finishTime10K = (tenKLength * pace) / 60;
-  const finishTime5K = (fiveKLength * pace) / 60;
-  const finishTime1Mile = (oneMileLength * pace) / 60;
+  const distances = [
+    { name: "1 Mile", length: 1.6 },
+    { name: "5 Kilometer", length: 5 },
+    { name: "10 Kilometer", length: 10 },
+    { name: "Halbmarathon", length: 21.1 },
+    { name: "Marathon", length: 42.2 },
+  ];
 
   const convertToTime = (time: number) => {
     // Function to convert decimal time to hh:mm:ss format
@@ -40,12 +35,14 @@ export async function POST(req: NextRequest) {
     return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   };
 
-  // Return finish times for various distances
-  return NextResponse.json({
-    finishTimeMarathon: convertToTime(finishTimeMarathon),
-    finishTimeHalfMarathon: convertToTime(finishTimeHalfMarathon),
-    finishTime10K: convertToTime(finishTime10K),
-    finishTime5K: convertToTime(finishTime5K),
-    finishTime1Mile: convertToTime(finishTime1Mile),
+  const raceResults = distances.map((race) => {
+    const finishTime = (race.length * pace) / 60;
+    return {
+      distance: race.name,
+      finishTime: convertToTime(finishTime),
+    };
   });
+
+  // Return finish times for various distances
+  return NextResponse.json(raceResults);
 }

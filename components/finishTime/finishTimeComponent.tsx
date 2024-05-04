@@ -1,16 +1,17 @@
 "use client";
 
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { ChangeEvent, useState, KeyboardEvent, use, useEffect } from "react";
+
+interface IRaceResult {
+  distance: string;
+  finishTime: number;
+}
 
 export default function finishTimeComponent() {
   const [inputTime, setInputTime] = useState("06:14");
   const [loading, setLoading] = useState(false);
-  const [finishTimeMarathon, setFinishTimeMarathon] = useState("");
-  const [finishTimeHalfMarathon, setFinishTimeHalfMarathon] = useState("");
-  const [finishTime10K, setFinishTime10K] = useState("");
-  const [finishTime5K, setFinishTime5K] = useState("");
-  const [finishTime1Mile, setFinishTime1Mile] = useState("");
+  const [raceResult, setRaceResult] = useState<IRaceResult[]>([]);
 
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" || event.key === "NumpadEnter") {
@@ -18,6 +19,7 @@ export default function finishTimeComponent() {
     }
   };
 
+  // Method to fetch data from API
   const fetchAPI = async () => {
     setLoading(true);
     const [m, s] = inputTime.split(":");
@@ -30,41 +32,35 @@ export default function finishTimeComponent() {
       body: JSON.stringify({ minutes: m, seconds: s }),
     });
     const data = await response.json();
-    setFinishTimeMarathon(data.finishTimeMarathon);
-    setFinishTimeHalfMarathon(data.finishTimeHalfMarathon);
-    setFinishTime10K(data.finishTime10K);
-    setFinishTime5K(data.finishTime5K);
-    setFinishTime1Mile(data.finishTime1Mile);
+    setRaceResult(data);
     setLoading(false);
   };
 
+  // Method to handle time input
   const timeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setInputTime(event.target.value);
   };
 
+  // Method to reset pace
   const resetPace = () => {
     setInputTime("06:14");
-    setFinishTimeMarathon("");
-    setFinishTimeHalfMarathon("");
-    setFinishTime10K("");
-    setFinishTime5K("");
-    setFinishTime1Mile("");
+    setRaceResult([]);
   };
 
   return (
     <>
       <div className="flex flex-col items-start gap-4">
-        <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg sm:p-12 p-6 sm:min-h-[194px] min-w-[307px]">
+        <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg sm:p-12 p-6 sm:min-h-[310px] min-w-[307px]">
           <div>
-            {finishTimeMarathon ? (
+            {raceResult.length > 0 ? (
               <p className="text-slate-50 font-bold text-center">Deine Pace</p>
             ) : (
               <p className="text-slate-50 font-bold text-center">
-                Berechne deine Zielzeiten
+                Plane deine Zielzeiten
               </p>
             )}
           </div>
-          {finishTimeMarathon ? (
+          {raceResult.length > 0 ? (
             <p className="text-6xl text-center text-yellow-400 font-mono">
               {inputTime}
             </p>
@@ -72,7 +68,7 @@ export default function finishTimeComponent() {
             <div className="flex flex-row justify-center gap-4 items-end">
               <div className="flex flex-col gap-2 text-left">
                 <label className="text-slate-500 text-xs h-4 font-light">
-                  Pace in m/km
+                  Pace in min/km
                 </label>
                 <input
                   className="px-4 py-2 bg-transparent border border-1 border-slate-50 text-slate-50 rounded-md placeholder:text-slate-700"
@@ -87,85 +83,43 @@ export default function finishTimeComponent() {
                   onClick={fetchAPI}
                   className="p-2 border border-1 border-yellow-400 text-yellow-400 rounded-md"
                 >
-                  Abschicken
+                  {loading ? (
+                    <ArrowPathIcon className="fill-yellow-400 h-4 w-4 animate-spin" />
+                  ) : (
+                    "Berechnen"
+                  )}
                 </button>
               </div>
             </div>
           )}
         </div>
-        <div className="flex flex-col items-start w-full bg-slate-900 rounded-lg sm:p-12 p-6">
-          <div className="text-left">
-            <div className="text-left">
-              <label className="text-slate-600 font-bold text-sm h-4">
-                1 Meile
-              </label>
-              {loading ? (
-                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
-              ) : (
-                <p className="text-xl text-yellow-400 h-8 font-mono">
-                  {finishTime1Mile ? <>{finishTime1Mile}</> : "00:00:00"}
-                </p>
-              )}
-            </div>
-            <div className="text-left">
-              <label className="text-slate-600 font-bold text-sm h-4">5K</label>
-              {loading ? (
-                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
-              ) : (
-                <p className="text-xl text-yellow-400 h-8 font-mono">
-                  {finishTime5K ? <>{finishTime5K}</> : "00:00:00"}
-                </p>
-              )}
-            </div>
-            <div className="text-left">
-              <label className="text-slate-600 font-bold text-sm h-4">
-                10K
-              </label>
-              {loading ? (
-                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
-              ) : (
-                <p className="text-xl text-yellow-400 h-8 font-mono">
-                  {finishTime10K ? <>{finishTime10K}</> : "00:00:00"}
-                </p>
-              )}
-            </div>
-            <div className="text-left">
-              <label className="text-slate-600 font-bold text-sm h-4">
-                Halbmarathon
-              </label>
-              {loading ? (
-                <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
-              ) : (
-                <p className="text-xl text-yellow-400 h-8 font-mono">
-                  {finishTimeHalfMarathon ? (
-                    <>{finishTimeHalfMarathon}</>
-                  ) : (
-                    "00:00:00"
-                  )}
-                </p>
-              )}
-            </div>
-            <label className="text-slate-600 font-bold text-sm h-4">
-              Marathon
-            </label>
-            {loading ? (
-              <ArrowPathIcon className="fill-slate-700 h-4 w-4 animate-spin" />
-            ) : (
-              <p className="text-xl text-yellow-400 h-8 font-mono">
-                {finishTimeMarathon ? <>{finishTimeMarathon}</> : "00:00:00"}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="h-8 w-full">
-          {finishTimeMarathon && (
-            <div className="flex flex-col gap-4 text-center h-8 w-full">
-              <button
-                onClick={resetPace}
-                className="p-2 border border-1 border-yellow-400 text-yellow-400 rounded-md"
-              >
-                Erneut berechnen
-              </button>
+        <div className="min-h-[308px] w-full items-center">
+          {raceResult.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col items-start w-full bg-slate-900 rounded-lg sm:p-12 p-6">
+                <div className="text-left">
+                  {raceResult.map((result, index) => (
+                    <div className="text-left" key={index}>
+                      <label className="text-slate-600 font-bold text-sm h-4">
+                        {result.distance}
+                      </label>
+                      <p className="text-xl text-yellow-400 h-8 font-mono">
+                        {result.finishTime}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="h-8 w-full">
+                <div className="flex flex-col gap-4 text-center h-8 w-full">
+                  <button
+                    onClick={resetPace}
+                    className="p-2 border border-1 border-yellow-400 text-yellow-400 rounded-md"
+                  >
+                    Erneut berechnen
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>

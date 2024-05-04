@@ -17,8 +17,8 @@ export async function POST(req: NextRequest) {
     { name: "1 Mile", length: 1.6 },
     { name: "5 Kilometer", length: 5 },
     { name: "10 Kilometer", length: 10 },
-    { name: "Halbmarathon", length: 21.1 },
-    { name: "Marathon", length: 42.2 },
+    { name: "Halbmarathon", length: 21.0975 },
+    { name: "Marathon", length: 42.195 },
   ];
 
   const convertToTime = (time: number) => {

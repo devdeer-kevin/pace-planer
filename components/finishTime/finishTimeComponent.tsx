@@ -50,7 +50,7 @@ export default function finishTimeComponent() {
   return (
     <>
       <div className="flex flex-col items-start gap-4">
-        <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg sm:p-12 p-6 sm:min-h-[310px] min-w-[307px]">
+        <div className="flex flex-col gap-4 bg-slate-900/60 rounded-lg sm:p-12 p-6 min-w-[307px]">
           <div>
             {raceResult.length > 0 ? (
               <p className="text-slate-50 font-bold text-center">Deine Pace</p>

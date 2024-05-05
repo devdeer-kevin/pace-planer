@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Pace Planer",
   description:
-    "Calculate your target running time for various distances based on your pace with this easy-to-use app.",
+    "Berechne auf der Grundlage deiner Pace mit dieser benutzerfreundlichen App deine Ziellaufzeit für verschiedene Distanzen.",
   robots: "index, follow",
 };
 

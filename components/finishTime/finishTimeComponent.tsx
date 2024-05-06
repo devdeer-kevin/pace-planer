@@ -3,15 +3,15 @@
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { ChangeEvent, useState, KeyboardEvent, use, useEffect } from "react";
 
-interface IRaceResult {
+interface IRacePace {
   distance: string;
   finishTime: number;
 }
 
-export default function finishTimeComponent() {
+export default function FinishTimeComponent() {
   const [inputTime, setInputTime] = useState("06:14");
   const [loading, setLoading] = useState(false);
-  const [raceResult, setRaceResult] = useState<IRaceResult[]>([]);
+  const [raceResult, setRaceResult] = useState<IRacePace[]>([]);
 
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" || event.key === "NumpadEnter") {
@@ -24,7 +24,7 @@ export default function finishTimeComponent() {
     setLoading(true);
     const [m, s] = inputTime.split(":");
 
-    const response = await fetch("/api/v1/", {
+    const response = await fetch("/api/v1/finishTime/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,14 +3,15 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   // Get minutes and seconds from request body
   const body = await req.json();
-  const minutes = body.minutes;
-  const seconds = body.seconds;
+  const customDistanceName: string = body.distance;
+  const customDistance: number = body.customDistance;
+  const hours: number = body.hours;
+  const minutes: number = body.minutes;
 
   // Format pace
-  const formattedSeconds = Number(seconds);
-  const decimalSeconds = Math.round((formattedSeconds / 60) * 100);
-  const rawPace = `${minutes}.${decimalSeconds}`;
-  const pace = Number(rawPace);
+  const decimalMinutes = Math.round((minutes / 60) * 100);
+  const rawTargetTime = `${hours}.${decimalMinutes}`;
+  const targetTime = Number(rawTargetTime);
 
   // Define distances
   const distances = [
@@ -19,6 +20,7 @@ export async function POST(req: NextRequest) {
     { name: "10 Kilometer", length: 10 },
     { name: "Halbmarathon", length: 21.0975 },
     { name: "Marathon", length: 42.195 },
+    { name: customDistanceName, length: customDistance },
   ];
 
   const convertToTime = (time: number) => {
@@ -35,14 +37,14 @@ export async function POST(req: NextRequest) {
     return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   };
 
-  const raceResults = distances.map((race) => {
-    const finishTime = (race.length * pace) / 60;
+  const racePace = distances.map((race) => {
+    const finishPace = (targetTime / race.length) * 60;
     return {
       distance: race.name,
-      finishTime: convertToTime(finishTime),
+      finishTime: convertToTime(finishPace),
     };
   });
 
   // Return finish times for various distances
-  return NextResponse.json(raceResults);
+  return NextResponse.json(racePace);
 }

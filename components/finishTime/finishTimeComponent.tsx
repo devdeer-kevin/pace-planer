@@ -71,6 +71,7 @@ export default function FinishTimeComponent() {
                   Pace in min/km
                 </label>
                 <input
+                  aria-label="Pace in min/km"
                   className="px-4 py-2 bg-transparent border border-1 border-slate-50 text-slate-50 rounded-md placeholder:text-slate-700"
                   value={inputTime}
                   onChange={timeHandler}

@@ -10,7 +10,7 @@ interface IRacePace {
 
 export default function FinishTimeComponent() {
   const [inputTime, setInputTime] = useState("06:14");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [raceResult, setRaceResult] = useState<IRacePace[]>([]);
 
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -85,7 +85,7 @@ export default function FinishTimeComponent() {
                   className="p-2 border border-1 border-yellow-400 text-yellow-400 rounded-md"
                 >
                   {loading ? (
-                    <ArrowPathIcon className="fill-yellow-400 h-4 w-4 animate-spin" />
+                    <ArrowPathIcon className="fill-yellow-400 h-5 w-5 animate-spin" />
                   ) : (
                     "Berechnen"
                   )}

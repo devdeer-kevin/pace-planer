@@ -182,26 +182,39 @@ export default function FinishTimeComponent() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 bg-slate-900 rounded-lg p-6 w-full sm:min-w-[400px]">
-          <div className="flex flex-row justify-center gap-4 items-end">
-            <div className="flex flex-col gap-2 items-center">
+        <div className="flex flex-col gap-4 bg-slate-900 rounded-lg px-6 pt-6 pb-8 w-full sm:min-w-[400px]">
+          <div className="flex flex-col items-center">
+            {raceResult.length <= 0 ? (
               <p className="text-slate-500 text-center break-words w-4/6 text-xs h-4 font-light">
                 Gib Distanz und Pace ein, um deine Zielzeit zu berechnen.
               </p>
-            </div>
+            ) : (
+              <p className="text-slate-500 text-center break-words w-4/6 text-xs h-4 font-light">
+                Ergebnis
+              </p>
+            )}
           </div>
         </div>
         <div className="h-8 w-full">
           <div className="flex flex-col gap-4 text-center h-8 w-full">
-            <button
-              onClick={resetPace}
-              className="flex flex-row items-center justify-center p-4 bg-yellow-400 text-slate-800 rounded-md"
-            >
-              {loading && (
-                <ArrowPathIcon className="fill-slate-800 h-4 w-4 animate-spin mr-3" />
-              )}
-              Berechnen
-            </button>
+            {raceResult.length <= 0 ? (
+              <button
+                onClick={fetchAPI}
+                className="flex flex-row items-center justify-center p-4 bg-yellow-400 text-slate-800 rounded-md"
+              >
+                {loading && (
+                  <ArrowPathIcon className="fill-slate-800 h-4 w-4 animate-spin mr-3" />
+                )}
+                Berechnen
+              </button>
+            ) : (
+              <button
+                onClick={resetPace}
+                className="flex flex-row items-center justify-center p-4 bg-yellow-400 text-slate-800 rounded-md"
+              >
+                Erneut Berechnen
+              </button>
+            )}
           </div>
         </div>
       </div>

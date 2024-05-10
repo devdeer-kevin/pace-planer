@@ -6,8 +6,11 @@ export async function POST(req: NextRequest) {
   const minutes: number = body.minutes;
   const seconds: number = body.seconds;
 
+  //
+  const pad = (num: number) => (num < 10 ? `0${num}` : num);
+
   // Format pace
-  const decimalSeconds = Math.round((seconds / 60) * 100);
+  const decimalSeconds = pad(Math.round((seconds / 60) * 100));
   const rawPace = `${minutes}.${decimalSeconds}`;
   const pace = Number(rawPace);
 
@@ -22,7 +25,6 @@ export async function POST(req: NextRequest) {
 
   const convertToTime = (time: number) => {
     // Function to convert decimal time to hh:mm:ss format
-    const pad = (num: number) => (num < 10 ? `0${num}` : num);
 
     let hours = Math.floor(time);
     let remainder = time - hours;

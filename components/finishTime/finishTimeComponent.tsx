@@ -71,7 +71,7 @@ export default function FinishTimeComponent() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 max-w-[360px]">
+      <div className="flex flex-col items-center gap-4 w-[360px]">
         <div className="flex flex-col items-center gap-4 bg-slate-900 rounded-lg p-6 w-full ">
           <div>
             <p className="text-slate-50 font-bold text-center">

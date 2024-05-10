@@ -124,7 +124,7 @@ export default function FinishTimeComponent() {
                 onClick={() => setSelectedDistance("42k")}
                 className={`${
                   selectedDistance === "42k" ? "bg-yellow-400" : "bg-slate-700"
-                } h-12 w-12 rounded-lg `}
+                } h-12 w-12 rounded-lg`}
               >
                 42k
               </button>
@@ -173,7 +173,7 @@ export default function FinishTimeComponent() {
                 <input
                   disabled={raceResult.length > 0}
                   aria-label="Minuten"
-                  className="text-center py-2 w-32 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                  className="text-center font-mono text-lg py-2 w-32 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                   value={minutes}
                   onChange={minutesHandler}
                   onKeyDown={handleSubmit}
@@ -187,7 +187,7 @@ export default function FinishTimeComponent() {
                 <input
                   disabled={raceResult.length > 0}
                   aria-label="Sekunden"
-                  className="text-center py-2 w-32 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                  className="text-center font-mono  text-lg py-2 w-32 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                   value={seconds}
                   onChange={secondsHandler}
                   onKeyDown={handleSubmit}
@@ -221,7 +221,7 @@ export default function FinishTimeComponent() {
                   )}
                 </p>
                 <p className="text-yellow-400 font-mono text-xs text-center">
-                  Deine Pace
+                  Deine Zielzeit
                 </p>
               </div>
             )}

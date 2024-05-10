@@ -71,7 +71,7 @@ export default function FinishTimeComponent() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 max-w-[400px]">
+      <div className="flex flex-col items-center gap-4 max-w-[360px]">
         <div className="flex flex-col items-center gap-4 bg-slate-900 rounded-lg p-6 w-full ">
           <div>
             <p className="text-slate-50 font-bold text-center">
@@ -173,7 +173,7 @@ export default function FinishTimeComponent() {
                 <input
                   disabled={raceResult.length > 0}
                   aria-label="Minuten"
-                  className="text-center py-2 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                  className="text-center py-2 w-32 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                   value={minutes}
                   onChange={minutesHandler}
                   onKeyDown={handleSubmit}
@@ -187,7 +187,7 @@ export default function FinishTimeComponent() {
                 <input
                   disabled={raceResult.length > 0}
                   aria-label="Sekunden"
-                  className="text-center py-2 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                  className="text-center py-2 w-32 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                   value={seconds}
                   onChange={secondsHandler}
                   onKeyDown={handleSubmit}

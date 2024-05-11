@@ -71,13 +71,46 @@ export default function FinishTimeComponent() {
 
   return (
     <>
+      <div className="py-4">
+        <p className="text-slate-50 font-bold text-center">
+          Plane deine Zielzeiten
+        </p>
+      </div>
       <div className="flex flex-col items-center gap-4 w-[330px]">
-        <div className="flex flex-col items-center gap-4 bg-slate-900 rounded-lg p-6 w-full ">
-          <div>
-            <p className="text-slate-50 font-bold text-center">
-              Plane deine Zielzeiten
-            </p>
+        <div className="flex flex-col gap-4 bg-slate-900 rounded-lg px-6 w-full ">
+          <div className="flex flex-col items-center">
+            {raceResult.length <= 0 ? (
+              <p className="text-slate-500 text-center break-words w-72 py-6 text-xs font-light">
+                Wähle Distanz und Pace, um deine Zielzeiten zu berechnen.
+              </p>
+            ) : (
+              <div className="flex flex-col gap-5 pt-3 pb-3">
+                <p className="text-yellow-400 text-center text-2xl h-4 font-mono">
+                  {selectedDistance === "1.6k" && (
+                    <>{raceResult[0].finishTime}</>
+                  )}
+                  {selectedDistance === "5k" && <>{raceResult[1].finishTime}</>}
+                  {selectedDistance === "10k" && (
+                    <>{raceResult[2].finishTime}</>
+                  )}
+                  {selectedDistance === "21k" && (
+                    <>{raceResult[3].finishTime}</>
+                  )}
+                  {selectedDistance === "42k" && (
+                    <>{raceResult[4].finishTime}</>
+                  )}
+                </p>
+                <p className="text-yellow-400 font-mono text-xs text-center">
+                  Deine Zielzeit
+                </p>
+              </div>
+            )}
           </div>
+        </div>
+        <div className="flex flex-col items-center gap-4 bg-slate-900 rounded-lg p-6 w-full ">
+          <label className="text-slate-500 text-xs h-4 font-light">
+            Distanz
+          </label>
           <div className="flex flex-row gap-2">
             <div>
               <button
@@ -195,36 +228,6 @@ export default function FinishTimeComponent() {
                 />
               </div>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 bg-slate-900 rounded-lg px-6 w-full ">
-          <div className="flex flex-col items-center">
-            {raceResult.length <= 0 ? (
-              <p className="text-slate-500 text-center break-words w-72 py-6 text-xs font-light">
-                Wähle Distanz und Pace, um deine Zielzeit zu berechnen.
-              </p>
-            ) : (
-              <div className="flex flex-col gap-5 pt-3 pb-3">
-                <p className="text-yellow-400 text-center text-2xl h-4 font-mono">
-                  {selectedDistance === "1.6k" && (
-                    <>{raceResult[0].finishTime}</>
-                  )}
-                  {selectedDistance === "5k" && <>{raceResult[1].finishTime}</>}
-                  {selectedDistance === "10k" && (
-                    <>{raceResult[2].finishTime}</>
-                  )}
-                  {selectedDistance === "21k" && (
-                    <>{raceResult[3].finishTime}</>
-                  )}
-                  {selectedDistance === "42k" && (
-                    <>{raceResult[4].finishTime}</>
-                  )}
-                </p>
-                <p className="text-yellow-400 font-mono text-xs text-center">
-                  Deine Zielzeit
-                </p>
-              </div>
-            )}
           </div>
         </div>
         <div className="h-8 w-full">

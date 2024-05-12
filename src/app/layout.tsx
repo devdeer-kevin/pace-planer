@@ -19,22 +19,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
-        <main className="flex flex-col min-h-screen items-center justify-center">
-          <nav className="fixed top-0 w-full bg-slate-950">
-            <div className="flex flex-row justify-between p-4">
-              <div className="flex flex-row gap-2">
-                <Link href="/">
-                  <h1 className="text-4xl font-bold text-center text-slate-700">
-                    Pace Planer
-                  </h1>
-                </Link>
-                <div className="text-yellow-400 font-mono text-sm">beta</div>
-              </div>
+        <nav className="fixed top-0 w-full bg-slate-950">
+          <div className="flex flex-row justify-between p-4">
+            <div className="flex flex-row gap-2">
+              <Link href="/">
+                <h1 className="text-4xl font-bold text-center text-slate-700">
+                  Pace Planer
+                </h1>
+              </Link>
+              <div className="text-yellow-400 font-mono text-sm">beta</div>
             </div>
-          </nav>
-          <div className="flex flex-col items-center justify-center font-mono text-sm gap-4">
-            {children}
           </div>
+        </nav>
+
+        <main className="flex flex-col h-svh items-center justify-center font-mono text-sm">
+          {children}
         </main>
       </body>
     </html>

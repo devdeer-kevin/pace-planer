@@ -75,8 +75,8 @@ export default function FinishTimeComponent() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 w-[330px]">
-        <div className="flex flex-col gap-4 bg-slate-900 rounded-lg px-6 w-full ">
+      <div className="flex flex-col sm:pt-0 pt-10 items-center gap-4 w-[330px]">
+        <div className="flex flex-col gap-4 bg-slate-900 rounded-lg px-6 w-full">
           <div className="flex flex-col items-center">
             {raceResult.length <= 0 ? (
               <p className="text-slate-500 text-center break-words w-72 py-6 text-xs font-light">

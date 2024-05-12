@@ -5,6 +5,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const minutes: number = body.minutes;
   const seconds: number = body.seconds;
+  const customDistance: number = body.distance;
 
   //
   const pad = (num: number) => (num < 10 ? `0${num}` : num);
@@ -16,11 +17,11 @@ export async function POST(req: NextRequest) {
 
   // Define distances
   const distances = [
-    { name: "1 Mile", length: 1.6 },
     { name: "5 Kilometer", length: 5 },
     { name: "10 Kilometer", length: 10 },
     { name: "Halbmarathon", length: 21.0975 },
     { name: "Marathon", length: 42.195 },
+    { name: `${customDistance} Kilometer`, length: customDistance },
   ];
 
   const convertToTime = (time: number) => {

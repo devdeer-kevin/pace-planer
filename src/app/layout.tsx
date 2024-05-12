@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
-        <main className="flex flex-col items-center justify-center">
+        <main className="flex flex-col min-h-screen items-center justify-center">
           <nav className="fixed top-0 w-full bg-slate-950">
             <div className="flex flex-row justify-between p-4">
               <div className="flex flex-row gap-2">
@@ -32,7 +32,7 @@ export default function RootLayout({
               </div>
             </div>
           </nav>
-          <div className="max-w-4xl pt-20 items-center justify-center font-mono text-sm flex-col gap-4">
+          <div className="flex flex-col items-center justify-center font-mono text-sm gap-4">
             {children}
           </div>
         </main>

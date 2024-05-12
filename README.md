@@ -6,6 +6,7 @@
 
 - **Pace Calculation**: Enter your desired pace to see the corresponding finish time for your race distance.
 - **Distance Support**: Supports a variety of distances, including 1Mile, 5K, 10K, half-marathon, and marathon.
+- **Custom Distance**: Calculate the finish time for your custom distance up to 9999 km.
 
 ## Known Issues
 

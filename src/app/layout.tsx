@@ -26,7 +26,7 @@ export default function RootLayout({
             <div className="flex flex-row">
               <Link href="/">
                 <Image
-                  className="size-10"
+                  className="size-12"
                   src={Logo}
                   alt="Logo Pace Planer"
                   width={50}

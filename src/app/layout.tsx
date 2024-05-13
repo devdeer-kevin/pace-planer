@@ -22,11 +22,11 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <nav className="fixed px-2 top-0 w-full bg-slate-950">
-          <div className="flex flex-row justify-between p-4">
+          <div className="flex flex-row justify-between items-center p-4">
             <div className="flex flex-row">
               <Link href="/">
                 <Image
-                  className="size-12"
+                  className="size-10"
                   src={Logo}
                   alt="Logo Pace Planer"
                   width={50}

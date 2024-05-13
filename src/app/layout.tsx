@@ -3,6 +3,8 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "/public/Pace-Planer-Logo.svg";
 
 export const metadata: Metadata = {
   title: "Pace Planer",
@@ -21,13 +23,11 @@ export default function RootLayout({
       <body>
         <nav className="fixed top-0 w-full bg-slate-950">
           <div className="flex flex-row justify-between p-4">
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-1">
               <Link href="/">
-                <h1 className="text-4xl font-bold text-center text-slate-700">
-                  Pace Planer
-                </h1>
+                <Image src={Logo} alt="logo" width={50} height={50} />
               </Link>
-              <div className="text-yellow-400 font-mono text-sm">beta</div>
+              <div className="text-slate-500 font-mono text-sm">beta</div>
             </div>
           </div>
         </nav>

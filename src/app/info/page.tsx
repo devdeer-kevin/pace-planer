@@ -1,10 +1,10 @@
 export default async function Info() {
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-6">
       <h1 className="text-slate-500 text-left text-xl">
         Pace Planer &ndash; Laufzeiten intuitiv planen
       </h1>
-      <div className="flex  flex-col  gap-6 text-slate-400 leading-6 text-left text-md">
+      <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
         <p>
           Als passionierter Läufer kenne ich die Herausforderungen, die viele
           von uns beim Versuch erleben, ihre Laufzeiten und Paces zu berechnen.

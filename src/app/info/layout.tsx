@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pace Planer - Info",
+  title: "Entdecke Pace Planer",
   description:
-    "Berechne auf der Grundlage deiner Pace mit dieser benutzerfreundlichen App deine Ziellaufzeit für 5k, 10k, Halbmarathon und Marathon.",
+    "Deine kostenlose, werbefreie Lauf-App für einfache Zielzeit-Berechnungen ohne Cookies oder Analytics. Perfekt für alle Distanzen – plane deinen Lauf mit Klarheit und Privatsphäre.",
   robots: "index, follow",
 };
 

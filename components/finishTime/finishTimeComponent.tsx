@@ -104,7 +104,7 @@ export default function FinishTimeComponent() {
             )}
           </div>
         </div>
-        <div className="flex flex-col items-center gap-4 bg-slate-900 rounded-lg p-6 w-full ">
+        <div className="flex flex-col items-center gap-2 bg-slate-900 rounded-lg p-6 w-full ">
           <label className="text-slate-500 text-xs h-4 font-light">
             Distanz
           </label>

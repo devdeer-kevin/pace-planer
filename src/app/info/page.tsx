@@ -17,9 +17,8 @@ export default async function Info() {
           Einfachheit steht im Vordergrund: &quot;Pace Planer&quot; bietet ein
           klares und intuitives User Interface, das es ermöglicht, Zielzeiten
           sowohl für Standardrenndistanzen als auch für individuelle Strecken
-          einfach zu berechnen. Geben Sie Ihre Pace ein und die App berechnet
-          die Zeit, die Sie benötigen, um Ihre gewünschte Distanz zu
-          absolvieren.
+          einfach zu berechnen. Gib deine Pace ein und die App berechnet die
+          Zeit, die du benötigst, um deine gewünschte Distanz zu absolvieren.
         </p>
         <p>
           Für die Community: Diese App ist vollkommen kostenlos und dient als

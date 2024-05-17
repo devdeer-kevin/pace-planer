@@ -41,10 +41,10 @@ export default async function Info() {
           die nicht nur benutzerfreundlich, sondern auch respektvoll gegenüber
           deiner Privatsphäre ist. Deshalb verzichtet die App konsequent auf
           Cookies und Analytics. Dein Training und deine Daten gehören dir
-          allein, ohne dass sie von Drittanbietern verfolgt oder analysiert
-          werden. Dieses Engagement für Datenschutz stellt sicher, dass du die
-          App in vollem Vertrauen nutzen kannst, ohne dir Sorgen über ungewollte
-          Datensammlungen machen zu müssen.
+          allein, ohne dass sie von mir oder Drittanbietern verfolgt oder
+          analysiert werden. Dieses Engagement für Datenschutz stellt sicher,
+          dass du die App in vollem Vertrauen nutzen kannst, ohne dir Sorgen
+          über ungewollte Datensammlungen machen zu müssen.
         </p>
       </div>
     </div>

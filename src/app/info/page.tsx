@@ -43,9 +43,12 @@ export default async function Info() {
           deiner Privatsphäre ist. Deshalb verzichtet die App konsequent auf
           Cookies und Analytics. Dein Training und deine Daten gehören dir
           allein, ohne dass sie von mir oder Drittanbietern verfolgt oder
-          analysiert werden. Dieses Engagement für Datenschutz stellt sicher,
-          dass du die App in vollem Vertrauen nutzen kannst, ohne dir Sorgen
-          über ungewollte Datensammlungen machen zu müssen.
+          analysiert werden. Um diese Seite für alle Läufer:innen kostenlos
+          zugänglich zu machen, nutze ich nur die Google Search Console zur
+          Indexierung in den Google-Suchergebnissen. Es werden dabei keine
+          personenbezogenen Daten gesammelt. Dieses Engagement für Datenschutz
+          stellt sicher, dass du die App in vollem Vertrauen nutzen kannst, ohne
+          dir Sorgen über ungewollte Datensammlungen machen zu müssen.
         </p>
       </div>
     </div>

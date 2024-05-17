@@ -34,9 +34,6 @@ export default function RootLayout({
                   height={50}
                 />
               </Link>
-              <div className="text-slate-700 font-mono text-sm">
-                <p>beta</p>
-              </div>
             </div>
             <div>
               <Link

@@ -1,4 +1,4 @@
-# Pace Planer [beta]
+# Pace Planer
 
 [Pace Planer](https://pace-planer.de) is an intuitive and responsive app designed to help runners calculate their target time for various distances based on their pace. Currently in beta.
 

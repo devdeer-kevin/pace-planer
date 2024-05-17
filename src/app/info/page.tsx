@@ -14,29 +14,30 @@ export default async function Info() {
           einfach zu bedienen, werbefrei und barrierefrei ist.
         </p>
         <p>
-          Einfachheit steht im Vordergrund: &quot;Pace Planer&quot; bietet ein
-          klares und intuitives User Interface, das es ermöglicht, Zielzeiten
-          sowohl für Standardrenndistanzen als auch für individuelle Strecken
-          einfach zu berechnen. Gib deine Pace ein und die App berechnet die
-          Zeit, die du benötigst, um deine gewünschte Distanz zu absolvieren.
+          <b>Einfachheit steht im Vordergrund:</b> &quot;Pace Planer&quot;
+          bietet ein klares und intuitives User Interface, das es ermöglicht,
+          Zielzeiten sowohl für Standardrenndistanzen als auch für individuelle
+          Strecken einfach zu berechnen. Gib deine Pace ein und die App
+          berechnet die Zeit, die du benötigst, um deine gewünschte Distanz zu
+          absolvieren.
         </p>
         <p>
-          Für die Community: Diese App ist vollkommen kostenlos und dient als
-          Werkzeug für die gesamte Lauf-Community. Zukünftige Updates werden
+          <b>Für die Community:</b> Diese App ist vollkommen kostenlos und dient
+          als Werkzeug für die gesamte Lauf-Community. Zukünftige Updates werden
           Funktionen wie die Berechnung der Pace für eine bestimmte Zielzeit,
           eine Startzeitplanung zur Koordination mit Freunden und Familie sowie
           die Darstellung verschiedener Rennstrategien, einschließlich des
           Negative Splits, umfassen.
         </p>
         <p>
-          Vision für die Zukunft: Ich glaube fest daran, dass jeder Zugang zu
-          einfachen, effektiven Tools haben sollte, die das Laufen angenehmer
-          machen. Mit &quot;Pace Planer&quot; möchte ich jedem Läufer und jeder
-          Läuferin helfen, ihre Ziele zu erreichen und ihre Leistungen ohne
-          unnötige Hürden zu planen.
+          <b>Vision für die Zukunft:</b> Ich glaube fest daran, dass jeder
+          Zugang zu einfachen, effektiven Tools haben sollte, die das Laufen
+          angenehmer machen. Mit &quot;Pace Planer&quot; möchte ich jedem Läufer
+          und jeder Läuferin helfen, ihre Ziele zu erreichen und ihre Leistungen
+          ohne unnötige Hürden zu planen.
         </p>
         <p>
-          Engagement für Datenschutz: Bei der Entwicklung von &quot;Pace
+          <b>Engagement für Datenschutz:</b> Bei der Entwicklung von &quot;Pace
           Planer&quot; war es mir besonders wichtig, eine Umgebung zu schaffen,
           die nicht nur benutzerfreundlich, sondern auch respektvoll gegenüber
           deiner Privatsphäre ist. Deshalb verzichtet die App konsequent auf

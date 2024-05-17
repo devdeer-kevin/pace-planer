@@ -5,6 +5,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "/public/Pace-Planer-Logo.svg";
+import { InformationCircleIcon } from "@heroicons/react/16/solid";
 
 export const metadata: Metadata = {
   title: "Pace Planer",
@@ -38,7 +39,13 @@ export default function RootLayout({
               </div>
             </div>
             <div>
-              <h1 className="text-slate-800 font-bold text-3xl">Pace Planer</h1>
+              <Link
+                href="/info"
+                className="flex flex-row gap-1 font-mono items-center text-slate-600 text-md"
+              >
+                <InformationCircleIcon className="h-5 w-5" />
+                Über Pace Planer
+              </Link>
             </div>
           </div>
         </nav>

@@ -12,5 +12,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="h-full w-full py-24 px-6">{children}</main>;
+  return (
+    <main className="flex flex-col items-center overflow-y-auto h-full w-full py-24 px-6">
+      {children}
+    </main>
+  );
 }

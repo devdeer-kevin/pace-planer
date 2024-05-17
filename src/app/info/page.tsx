@@ -1,6 +1,6 @@
 export default async function Info() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col max-w-2xl gap-6">
       <h1 className="text-slate-500 text-left text-xl">
         Pace Planer &ndash; Laufzeiten intuitiv planen
       </h1>

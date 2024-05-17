@@ -41,7 +41,7 @@ export default function RootLayout({
             <div>
               <Link
                 href="/info"
-                className="flex flex-row gap-1 font-mono items- justify-center text-slate-600 text-md"
+                className="flex flex-row gap-1 font-mono items-center justify-center text-slate-600 text-md"
               >
                 <InformationCircleIcon className="h-5 w-5" />
                 Über Pace Planer

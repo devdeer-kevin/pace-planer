@@ -1,3 +1,6 @@
+import { ScaleIcon } from "@heroicons/react/16/solid";
+import Link from "next/link";
+
 export default async function Info() {
   return (
     <div className="flex flex-col max-w-2xl gap-6">
@@ -49,6 +52,13 @@ export default async function Info() {
           personenbezogenen Daten gesammelt. Dieses Engagement für Datenschutz
           stellt sicher, dass du die App in vollem Vertrauen nutzen kannst, ohne
           dir Sorgen über ungewollte Datensammlungen machen zu müssen.
+        </p>
+        <p>
+          <ScaleIcon className="h-5 w-5 text-slate-600 inline" />{" "}
+          <Link className="text-slate-600" href="/impressum">
+            {" "}
+            Zum Impressum
+          </Link>
         </p>
       </div>
     </div>

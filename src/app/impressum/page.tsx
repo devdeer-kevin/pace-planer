@@ -4,7 +4,6 @@ export default async function Impressum() {
       <h1 className="text-slate-500 text-left text-xl">Impressum</h1>
       <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
         <p>
-          <b>Angaben gemäß § 5 TMG:</b> <br />
           Kevin Heyland
           <br />
           Herderstraße 31 <br />

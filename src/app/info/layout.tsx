@@ -4,7 +4,6 @@ export const metadata: Metadata = {
   title: "Entdecke Pace Planer",
   description:
     "Deine kostenlose, werbefreie Lauf-App für einfache Zielzeit-Berechnungen ohne Cookies oder Analytics. Perfekt für alle Distanzen – plane deinen Lauf mit Klarheit und Privatsphäre.",
-  robots: "index, follow",
 };
 
 export default function RootLayout({

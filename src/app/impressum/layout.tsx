@@ -4,7 +4,6 @@ export const metadata: Metadata = {
   title: "Impressum - Pace Planer",
   description:
     "Impressum von Pace Planer: Informationen zu Verantwortlichkeiten, Datenschutz und Haftungsausschluss.",
-  robots: "index, follow",
 };
 
 export default function RootLayout({

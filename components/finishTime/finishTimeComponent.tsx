@@ -79,7 +79,7 @@ export default function FinishTimeComponent() {
         <div className="flex flex-col gap-4 bg-slate-900 rounded-lg px-6 w-full">
           <div className="flex flex-col items-center">
             {raceResult.length <= 0 ? (
-              <p className="text-slate-500 text-center break-words w-72 py-6 text-xs font-light">
+              <p className="text-slate-50 text-center break-words w-72 py-6 text-xs font-light">
                 Wähle Distanz und Pace, um deine Zielzeiten zu berechnen.
               </p>
             ) : (

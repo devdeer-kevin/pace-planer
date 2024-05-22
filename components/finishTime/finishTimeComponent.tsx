@@ -220,10 +220,14 @@ export default function FinishTimeComponent() {
                 onClick={fetchAPI}
                 className="flex flex-row items-center justify-center p-4 bg-yellow-400 text-slate-800 rounded-md"
               >
-                {loading && (
-                  <ArrowPathIcon className="fill-slate-800 h-4 w-4 animate-spin mr-3" />
+                {loading ? (
+                  <>
+                    <ArrowPathIcon className="fill-slate-800 h-4 w-4 animate-spin mr-3" />
+                    <>Berechnung läuft</>
+                  </>
+                ) : (
+                  <>Berechnen</>
                 )}
-                Berechnen
               </button>
             ) : (
               <button

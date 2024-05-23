@@ -8,9 +8,9 @@ import Logo from "/public/Pace-Planer-Logo.svg";
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 
 export const metadata: Metadata = {
-  title: "Pace Planer",
+  title: "Pace Planer - Die Pace Rechner App",
   description:
-    "Berechne auf der Grundlage deiner Pace mit dieser benutzerfreundlichen App deine Ziellaufzeit für 5k, 10k, Halbmarathon und Marathon.",
+    "Berechne kostenlos, ohne Werbung und Cookie-Tracking, auf Grundlage deiner Pace deine Ziellaufzeit, mit dieser benutzerfreundlichen App für 5k, 10k, Halbmarathon, Marathon und mehr.",
 };
 
 export default function RootLayout({

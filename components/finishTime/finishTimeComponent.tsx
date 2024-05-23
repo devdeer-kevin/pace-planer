@@ -2,6 +2,7 @@
 
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { ChangeEvent, useState, KeyboardEvent, use, useEffect } from "react";
+import DistanceButton from "../distanceButton";
 
 interface IRacePace {
   distance: string;
@@ -109,56 +110,31 @@ export default function FinishTimeComponent() {
             Distanz
           </label>
           <div className="flex flex-row gap-2">
-            <div>
-              <button
-                onClick={() => setSelectedDistance("5k")}
-                className={`${
-                  selectedDistance === "5k" ? "bg-yellow-400" : "bg-slate-700"
-                } h-12 w-12 rounded-lg `}
-              >
-                5k
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setSelectedDistance("10k")}
-                className={`${
-                  selectedDistance === "10k" ? "bg-yellow-400" : "bg-slate-700"
-                } h-12 w-12 rounded-lg `}
-              >
-                10k
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setSelectedDistance("21k")}
-                className={`${
-                  selectedDistance === "21k" ? "bg-yellow-400" : "bg-slate-700"
-                } h-12 w-12 rounded-lg `}
-              >
-                21k
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setSelectedDistance("42k")}
-                className={`${
-                  selectedDistance === "42k" ? "bg-yellow-400" : "bg-slate-700"
-                } h-12 w-12 rounded-lg`}
-              >
-                42k
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => setSelectedDistance("?k")}
-                className={`${
-                  selectedDistance === "?k" ? "bg-yellow-400" : "bg-slate-700"
-                } h-12 w-12 rounded-lg `}
-              >
-                ?k
-              </button>
-            </div>
+            <DistanceButton
+              distance="5k"
+              onDistanceSelected={setSelectedDistance}
+              active={selectedDistance === "5k"}
+            />
+            <DistanceButton
+              distance="10k"
+              onDistanceSelected={setSelectedDistance}
+              active={selectedDistance === "10k"}
+            />
+            <DistanceButton
+              distance="21k"
+              onDistanceSelected={setSelectedDistance}
+              active={selectedDistance === "21k"}
+            />
+            <DistanceButton
+              distance="42k"
+              onDistanceSelected={setSelectedDistance}
+              active={selectedDistance === "42k"}
+            />
+            <DistanceButton
+              distance="?k"
+              onDistanceSelected={setSelectedDistance}
+              active={selectedDistance === "?k"}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-4 bg-slate-900 rounded-lg py-6 w-full ">

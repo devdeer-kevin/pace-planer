@@ -193,7 +193,7 @@ export default function FinishTimeComponent() {
           <div className="flex flex-col gap-4 text-center h-8 w-full">
             {raceResult.length <= 0 ? (
               <button
-                onClick={fetchAPI}
+                onMouseDown={fetchAPI}
                 className="flex flex-row items-center justify-center p-4 bg-yellow-400 text-slate-800 rounded-md"
               >
                 {loading ? (
@@ -207,7 +207,7 @@ export default function FinishTimeComponent() {
               </button>
             ) : (
               <button
-                onClick={resetPace}
+                onMouseDown={resetPace}
                 className="flex flex-row items-center justify-center p-4 bg-yellow-400 text-slate-800 rounded-md"
               >
                 Erneut Berechnen

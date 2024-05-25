@@ -148,7 +148,7 @@ export default function FinishTimeComponent() {
                       selectedDistance !== "?k" || raceResult.length > 0
                     }
                     aria-label="Individuelle Distanz in km"
-                    className="text-center font-mono text-lg py-2 w-full bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                    className="text-center font-mono text-lg py-1.5 w-full bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                     value={customDistance}
                     onChange={distanceHandler}
                     onKeyDown={handleSubmit}
@@ -165,7 +165,7 @@ export default function FinishTimeComponent() {
                     <input
                       disabled={raceResult.length > 0}
                       aria-label="Minuten"
-                      className="text-center font-mono text-lg py-2 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                      className="text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                       value={minutes}
                       onChange={minutesHandler}
                       onKeyDown={handleSubmit}
@@ -193,7 +193,7 @@ export default function FinishTimeComponent() {
           <div>
             {raceResult.length <= 0 ? (
               <button
-                className="flex flex-col h-full justify-center items-center bg-yellow-400 w-10 rounded-lg"
+                className="flex flex-col h-full justify-center items-center bg-yellow-400 w-12 rounded-lg"
                 onMouseDown={fetchAPI}
               >
                 {loading ? (

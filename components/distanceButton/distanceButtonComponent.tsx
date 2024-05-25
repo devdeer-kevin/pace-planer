@@ -24,8 +24,8 @@ export default function DistanceButton(props: IDistanceButtonProps) {
         <button
           onMouseDown={handleClick}
           className={`${
-            props.active ? "bg-yellow-400" : "bg-slate-700"
-          } h-12 w-12 rounded-lg `}
+            props.active && "border-yellow-400 border-2"
+          } bg-slate-700 h-11 w-11 rounded-lg text-slate-50`}
         >
           {props.distance}
         </button>

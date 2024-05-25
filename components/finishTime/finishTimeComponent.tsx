@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
-import { ChangeEvent, useState, KeyboardEvent, use, useEffect } from "react";
+import { ChangeEvent, useState, KeyboardEvent } from "react";
 import DistanceButton from "../distanceButton";
 
 interface IRacePace {

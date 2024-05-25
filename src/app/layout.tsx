@@ -46,7 +46,7 @@ export default function RootLayout({
           </div>
         </nav>
 
-        <main className="flex flex-col h-svh items-center justify-center font-mono text-sm">
+        <main className="flex flex-col h-svh items-center justify-center font-mono">
           {children}
         </main>
       </body>

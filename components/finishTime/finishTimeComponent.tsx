@@ -34,6 +34,7 @@ export default function FinishTimeComponent() {
     }
   };
 
+  // Method to fetch data from Pace API
   const fetchPaceAPI = async () => {
     setLoading(true);
 
@@ -54,7 +55,7 @@ export default function FinishTimeComponent() {
     setLoading(false);
   };
 
-  // Method to fetch data from API
+  // Method to fetch data from Time API
   const fetchTimeAPI = async () => {
     setLoading(true);
 
@@ -116,7 +117,7 @@ export default function FinishTimeComponent() {
 
   return (
     <>
-      <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-[330px]">
+      <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-[340px]">
         <div className="flex flex-col bg-slate-950 rounded-lg w-11/12">
           <div className="flex flex-col items-center py-3">
             {raceResult.length <= 0 ? (

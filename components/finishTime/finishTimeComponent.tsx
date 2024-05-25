@@ -14,10 +14,10 @@ interface IRacePace {
 }
 
 export default function FinishTimeComponent() {
-  const [hours, setHours] = useState("03");
-  const [minutes, setMinutes] = useState("06");
-  const [seconds, setSeconds] = useState("14");
-  const [customDistance, setCustomDistance] = useState("1.6");
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("");
+  const [customDistance, setCustomDistance] = useState("");
   const [loading, setLoading] = useState(false);
   const [raceResult, setRaceResult] = useState<IRacePace[]>([]);
   const [selectedDistance, setSelectedDistance] = useState("?k");
@@ -107,9 +107,10 @@ export default function FinishTimeComponent() {
 
   // Method to reset pace
   const resetPace = () => {
-    setMinutes("06");
-    setSeconds("14");
-    setCustomDistance("1.6");
+    setHours("");
+    setMinutes("");
+    setSeconds("");
+    setCustomDistance("");
     setRaceResult([]);
   };
 
@@ -189,15 +190,13 @@ export default function FinishTimeComponent() {
               </div>
               <div className="flex flex-row justify-center w-full">
                 <div className="flex flex-col items-center gap-2 w-full">
-                  <label className="text-slate-500 text-left text-xs font-light w-full">
-                    Individuelle Distanz in km
-                  </label>
                   <input
+                    placeholder="Individuelle Distanz in km"
                     disabled={
                       selectedDistance !== "?k" || raceResult.length > 0
                     }
                     aria-label="Individuelle Distanz in km"
-                    className="text-center font-mono text-lg py-1.5 w-full bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                    className="text-center font-mono text-lg py-1.5 w-full bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700 placeholder:text-xs"
                     value={customDistance}
                     onChange={distanceHandler}
                     onKeyDown={handleSubmit}
@@ -213,13 +212,11 @@ export default function FinishTimeComponent() {
                 >
                   {endpoint === "Pace" && (
                     <div className="flex flex-col gap-2">
-                      <label className="text-slate-500 text-xs h-4 font-light">
-                        Stunden
-                      </label>
                       <input
+                        placeholder="HH"
                         disabled={raceResult.length > 0}
                         aria-label="Stunden"
-                        className="text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                        className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                         value={hours}
                         onChange={hoursHandler}
                         onKeyDown={handleSubmit}
@@ -228,15 +225,13 @@ export default function FinishTimeComponent() {
                     </div>
                   )}
                   <div className="flex flex-col gap-2">
-                    <label className="text-slate-500 text-xs h-4 font-light">
-                      Minuten
-                    </label>
                     <input
+                      placeholder="MM"
                       disabled={raceResult.length > 0}
                       aria-label="Minuten"
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
-                      } bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
+                      } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
                       value={minutes}
                       onChange={minutesHandler}
                       onKeyDown={handleSubmit}
@@ -244,15 +239,13 @@ export default function FinishTimeComponent() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-slate-500 text-xs h-4 font-light">
-                      Sekunden
-                    </label>
                     <input
+                      placeholder="SS"
                       disabled={raceResult.length > 0}
                       aria-label="Sekunden"
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
-                      } bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
+                      } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
                       value={seconds}
                       onChange={secondsHandler}
                       onKeyDown={handleSubmit}

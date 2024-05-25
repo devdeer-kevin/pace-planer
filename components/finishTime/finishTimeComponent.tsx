@@ -160,7 +160,7 @@ export default function FinishTimeComponent() {
         </div>
         <div className="flex flex-row gap-2">
           <div>
-            <div className="flex flex-col items-center gap-4 w-full outline">
+            <div className="flex flex-col items-center gap-4 w-full">
               <div className="flex flex-row gap-2">
                 <DistanceButton
                   distance="5k"

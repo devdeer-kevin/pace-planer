@@ -260,7 +260,7 @@ export default function FinishTimeComponent() {
             {raceResult.length <= 0 ? (
               <button
                 className={`flex flex-col h-full justify-center ${
-                  loading ? "bg-slate-900" : "bg-yellow-400"
+                  loading ? "bg-slate-950" : "bg-yellow-400"
                 } items-center w-12 rounded-lg`}
                 onMouseDown={endpoint === "Time" ? fetchTimeAPI : fetchPaceAPI}
               >

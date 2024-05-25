@@ -14,21 +14,49 @@ interface IRacePace {
 }
 
 export default function FinishTimeComponent() {
+  const [hours, setHours] = useState("03");
   const [minutes, setMinutes] = useState("06");
   const [seconds, setSeconds] = useState("14");
   const [customDistance, setCustomDistance] = useState("1.6");
   const [loading, setLoading] = useState(false);
   const [raceResult, setRaceResult] = useState<IRacePace[]>([]);
   const [selectedDistance, setSelectedDistance] = useState("?k");
+  const [endpoint, setEndpoint] = useState("Time");
 
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" || event.key === "NumpadEnter") {
-      fetchAPI();
+      if (endpoint === "Time") {
+        fetchTimeAPI();
+      }
+      if (endpoint === "Pace") {
+        fetchPaceAPI();
+      }
     }
   };
 
+  const fetchPaceAPI = async () => {
+    setLoading(true);
+
+    const response = await fetch("/api/v1/finishPace/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+        distance: customDistance,
+      }),
+    });
+    const data = await response.json();
+    setRaceResult(data);
+    setLoading(false);
+  };
+  console.log(raceResult);
+
   // Method to fetch data from API
-  const fetchAPI = async () => {
+  const fetchTimeAPI = async () => {
     setLoading(true);
 
     const response = await fetch("/api/v1/finishTime/", {
@@ -45,6 +73,14 @@ export default function FinishTimeComponent() {
     const data = await response.json();
     setRaceResult(data);
     setLoading(false);
+  };
+
+  // Method to handle hours input
+  const hoursHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (isNaN(Number(event.target.value))) {
+      return;
+    }
+    setHours(event.target.value);
   };
   // Method to handle minutes input
   const minutesHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -100,12 +136,26 @@ export default function FinishTimeComponent() {
         </div>
         <div className="flex w-11/12 justify-end -mt-2 pb-2">
           <div className="flex flex-row gap-2">
-            <button className="bg-slate-950 text-slate-50 font-bold py-1 px-1.5 rounded-md">
+            <button
+              onClick={() => setEndpoint("Time")}
+              className={`bg-slate-950 ${
+                endpoint === "Time"
+                  ? "text-slate-50 font-bold"
+                  : "text-slate-700 font-normal"
+              } py-1 px-1.5 rounded-md`}
+            >
               Zielzeit
             </button>
-            {/* <button className="bg-slate-950 text-slate-700 px-1 rounded-md">
+            <button
+              onClick={() => setEndpoint("Pace")}
+              className={`bg-slate-950 ${
+                endpoint === "Pace"
+                  ? "text-slate-50 font-bold"
+                  : "text-slate-700 font-normal"
+              }py-1 px-1.5 rounded-md`}
+            >
               Zielpace
-            </button> */}
+            </button>
           </div>
         </div>
         <div className="flex flex-row gap-2">
@@ -157,7 +207,27 @@ export default function FinishTimeComponent() {
                 </div>
               </div>
               <div className="flex flex-row justify-center items-end ">
-                <div className="flex flex-row gap-6 w-full text-left">
+                <div
+                  className={`flex flex-row ${
+                    endpoint === "Time" ? "gap-6" : "gap-7"
+                  } w-full text-left`}
+                >
+                  {endpoint === "Pace" && (
+                    <div className="flex flex-col gap-2">
+                      <label className="text-slate-500 text-xs h-4 font-light">
+                        Stunden
+                      </label>
+                      <input
+                        disabled={raceResult.length > 0}
+                        aria-label="Stunden"
+                        className="text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                        value={hours}
+                        onChange={hoursHandler}
+                        onKeyDown={handleSubmit}
+                        maxLength={2}
+                      />
+                    </div>
+                  )}
                   <div className="flex flex-col gap-2">
                     <label className="text-slate-500 text-xs h-4 font-light">
                       Minuten
@@ -165,7 +235,9 @@ export default function FinishTimeComponent() {
                     <input
                       disabled={raceResult.length > 0}
                       aria-label="Minuten"
-                      className="text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                      className={`text-center font-mono text-lg py-1.5 ${
+                        endpoint === "Time" ? "w-28" : "w-16"
+                      } bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
                       value={minutes}
                       onChange={minutesHandler}
                       onKeyDown={handleSubmit}
@@ -179,7 +251,9 @@ export default function FinishTimeComponent() {
                     <input
                       disabled={raceResult.length > 0}
                       aria-label="Sekunden"
-                      className="text-center font-mono  text-lg py-2 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                      className={`text-center font-mono text-lg py-1.5 ${
+                        endpoint === "Time" ? "w-28" : "w-16"
+                      } bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
                       value={seconds}
                       onChange={secondsHandler}
                       onKeyDown={handleSubmit}
@@ -194,7 +268,7 @@ export default function FinishTimeComponent() {
             {raceResult.length <= 0 ? (
               <button
                 className="flex flex-col h-full justify-center items-center bg-yellow-400 w-12 rounded-lg"
-                onMouseDown={fetchAPI}
+                onMouseDown={endpoint === "Time" ? fetchTimeAPI : fetchPaceAPI}
               >
                 {loading ? (
                   <>
@@ -206,7 +280,7 @@ export default function FinishTimeComponent() {
               </button>
             ) : (
               <button
-                className="flex flex-col h-full justify-center items-center bg-yellow-400 w-10 rounded-lg"
+                className="flex flex-col h-full justify-center items-center bg-yellow-400 w-12 rounded-lg"
                 onMouseDown={resetPace}
               >
                 <ArrowUturnLeftIcon className="fill-slate-50 h-4 w-4" />

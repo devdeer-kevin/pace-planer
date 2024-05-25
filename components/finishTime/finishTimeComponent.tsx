@@ -116,7 +116,7 @@ export default function FinishTimeComponent() {
 
   return (
     <>
-      <div className="flex flex-col py-8 bg-slate-900 items-center rounded-xl gap-4 w-[330px]">
+      <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-[330px]">
         <div className="flex flex-col bg-slate-950 rounded-lg w-11/12">
           <div className="flex flex-col items-center py-3">
             {raceResult.length <= 0 ? (
@@ -160,7 +160,7 @@ export default function FinishTimeComponent() {
         </div>
         <div className="flex flex-row gap-2">
           <div>
-            <div className="flex flex-col items-center gap-4 w-full">
+            <div className="flex flex-col items-center gap-4 w-full outline">
               <div className="flex flex-row gap-2">
                 <DistanceButton
                   distance="5k"
@@ -215,7 +215,7 @@ export default function FinishTimeComponent() {
                       <input
                         placeholder="HH"
                         disabled={raceResult.length > 0}
-                        aria-label="Stunden"
+                        aria-label="Stunden eingeben"
                         className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                         value={hours}
                         onChange={hoursHandler}
@@ -228,7 +228,7 @@ export default function FinishTimeComponent() {
                     <input
                       placeholder="MM"
                       disabled={raceResult.length > 0}
-                      aria-label="Minuten"
+                      aria-label="Minuten eingeben"
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
                       } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
@@ -242,7 +242,7 @@ export default function FinishTimeComponent() {
                     <input
                       placeholder="SS"
                       disabled={raceResult.length > 0}
-                      aria-label="Sekunden"
+                      aria-label="Sekunden eingeben"
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
                       } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}

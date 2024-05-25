@@ -274,11 +274,13 @@ export default function FinishTimeComponent() {
           <div>
             {raceResult.length <= 0 ? (
               <button
+                disabled={minutes === "" && hours === "" && seconds === ""}
                 className={`flex flex-col h-full justify-center ${
                   (minutes === "" && hours === "" && seconds === "") || loading
-                    ? "bg-slate-950"
+                    ? "bg-slate-800"
                     : "bg-yellow-400"
-                } items-center w-12 rounded-lg`}
+                }
+                 items-center w-12 rounded-lg`}
                 onMouseDown={endpoint === "Time" ? fetchTimeAPI : fetchPaceAPI}
               >
                 {loading ? (
@@ -286,7 +288,13 @@ export default function FinishTimeComponent() {
                     <ArrowPathIcon className="fill-yellow-400 h-4 w-4 animate-spin" />
                   </>
                 ) : (
-                  <Bars2Icon className="fill-slate-50 h-4 w-4" />
+                  <Bars2Icon
+                    className={`${
+                      minutes === "" && hours === "" && seconds === ""
+                        ? "fill-slate-700"
+                        : "fill-slate-50"
+                    } h-4 w-4`}
+                  />
                 )}
               </button>
             ) : (

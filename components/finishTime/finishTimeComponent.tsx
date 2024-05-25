@@ -53,7 +53,6 @@ export default function FinishTimeComponent() {
     setRaceResult(data);
     setLoading(false);
   };
-  console.log(raceResult);
 
   // Method to fetch data from API
   const fetchTimeAPI = async () => {

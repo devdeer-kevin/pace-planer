@@ -38,13 +38,6 @@ export default function FinishTimeComponent() {
   const fetchPaceAPI = async () => {
     setLoading(true);
 
-    if (hours === "" && minutes === "" && seconds === "") {
-      setRaceResult([]);
-      setLoading(false);
-      resetPace();
-      return;
-    }
-
     const response = await fetch("/api/v1/finishPace/", {
       method: "POST",
       headers: {
@@ -65,13 +58,6 @@ export default function FinishTimeComponent() {
   // Method to fetch data from Time API
   const fetchTimeAPI = async () => {
     setLoading(true);
-
-    if (hours === "" && minutes === "" && seconds === "") {
-      setRaceResult([]);
-      setLoading(false);
-      resetPace();
-      return;
-    }
 
     const response = await fetch("/api/v1/finishTime/", {
       method: "POST",

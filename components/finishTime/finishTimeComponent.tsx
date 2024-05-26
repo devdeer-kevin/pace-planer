@@ -24,6 +24,15 @@ export default function FinishTimeComponent() {
   const [endpoint, setEndpoint] = useState("Time");
 
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (Number(hours) >= 24) {
+      setMinutes("59");
+      setSeconds("59");
+      return;
+    }
+    if (Number(seconds) >= 59) {
+      setSeconds("59");
+      return;
+    }
     if (event.key === "Enter" || event.key === "NumpadEnter") {
       if (endpoint === "Time") {
         fetchTimeAPI();

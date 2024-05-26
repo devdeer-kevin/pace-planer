@@ -14,15 +14,24 @@ interface IRacePace {
 }
 
 export default function FinishTimeComponent() {
+  // State to keep track of hours
   const [hours, setHours] = useState("");
+  // State to keep track of minutes
   const [minutes, setMinutes] = useState("");
+  // State to keep track of seconds
   const [seconds, setSeconds] = useState("");
+  // State to keep track of custom distance
   const [customDistance, setCustomDistance] = useState("");
+  // State to keep track of loading state
   const [loading, setLoading] = useState(false);
+  // State to keep track of the API response
   const [raceResult, setRaceResult] = useState<IRacePace[]>([]);
+  // State to keep track of selected distance
   const [selectedDistance, setSelectedDistance] = useState("?k");
+  // State to keep track of the chosen endpoint
   const [endpoint, setEndpoint] = useState("Time");
 
+  // Method to handle submit via enter key
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
     if (Number(hours) >= 24) {
       setMinutes("59");
@@ -43,6 +52,7 @@ export default function FinishTimeComponent() {
     }
   };
 
+  // Method to handle mouse down event
   const handleMouseDown = () => {
     if (Number(hours) >= 24) {
       setMinutes("59");
@@ -133,7 +143,7 @@ export default function FinishTimeComponent() {
     setCustomDistance(event.target.value);
   };
 
-  // Method to reset pace
+  // Method to reset the input fields
   const resetPace = () => {
     setHours("");
     setMinutes("");

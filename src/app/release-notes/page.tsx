@@ -8,9 +8,18 @@ export default async function Info() {
         Release Notes - Pace Planer App
       </h1>
       <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
+        <label className="text-slate-600">26.05.2024 - Pace Planer 2.0.1</label>
+        <p>
+          Patch: Unsinnige Zeitangaben werden nun abgefangen und verhindert.
+          Wenn Stunden eingegeben werden, können die Minuten nicht größer als 59
+          sein. Wenn Minuten eingegeben werden, können die Sekunden nicht größer
+          als 59 sein.
+        </p>
+      </div>
+      <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
         <label className="text-slate-600">25.05.2024 - Pace Planer 2.0.0</label>
         <p>
-          Stable: Ein neues Design wurde implementiert. Die App wirkt nun noch
+          Major: Ein neues Design wurde implementiert. Die App wirkt nun noch
           mehr wie ein Taschenrechner. Ziel ist es, so wenig Platz wie möglich
           zu nutzen. Außerdem wurde die App um eine Funktion erweitert, die es
           ermöglicht, die Ziel-Pace für eine gegebene Distanz und Zielzeit zu

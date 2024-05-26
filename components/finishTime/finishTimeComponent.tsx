@@ -40,7 +40,7 @@ export default function FinishTimeComponent() {
       setSeconds("59");
       return;
     }
-    if (Number(seconds) >= 59) {
+    if (Number(seconds) >= 60) {
       setSeconds("59");
       return;
     }
@@ -61,7 +61,7 @@ export default function FinishTimeComponent() {
       setSeconds("59");
       return;
     }
-    if (Number(seconds) >= 59) {
+    if (Number(seconds) >= 60) {
       setSeconds("59");
       return;
     }

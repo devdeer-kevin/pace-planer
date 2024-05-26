@@ -43,6 +43,24 @@ export default function FinishTimeComponent() {
     }
   };
 
+  const handleMouseDown = () => {
+    if (Number(hours) >= 24) {
+      setMinutes("59");
+      setSeconds("59");
+      return;
+    }
+    if (Number(seconds) >= 59) {
+      setSeconds("59");
+      return;
+    }
+    if (endpoint === "Time") {
+      fetchTimeAPI();
+    }
+    if (endpoint === "Pace") {
+      fetchPaceAPI();
+    }
+  };
+
   // Method to fetch data from Pace API
   const fetchPaceAPI = async () => {
     setLoading(true);
@@ -276,7 +294,7 @@ export default function FinishTimeComponent() {
                     : "bg-yellow-400"
                 }
                  items-center w-12 rounded-lg`}
-                onMouseDown={endpoint === "Time" ? fetchTimeAPI : fetchPaceAPI}
+                onMouseDown={handleMouseDown}
               >
                 {loading ? (
                   <>

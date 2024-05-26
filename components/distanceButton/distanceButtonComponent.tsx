@@ -7,6 +7,7 @@ interface IDistanceButtonProps {
   active: boolean;
   // Method to handle distance selection
   onDistanceSelected: (distance: string) => void;
+  onMousedown?: () => void;
 }
 export default function DistanceButton(props: IDistanceButtonProps) {
   {

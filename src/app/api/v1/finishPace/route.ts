@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
 
   // Define distances
   const distances = [
-    { name: "5 Kilometer", length: 5 },
-    { name: "10 Kilometer", length: 10 },
-    { name: "Halbmarathon", length: 21.0975 },
-    { name: "Marathon", length: 42.195 },
-    { name: `${customDistance} Kilometer`, length: customDistance },
+    { name: "5k", length: 5 },
+    { name: "10k", length: 10 },
+    { name: "21k", length: 21.0975 },
+    { name: "42k", length: 42.195 },
+    { name: `?k`, length: customDistance },
   ];
 
   const convertToTime = (time: number) => {

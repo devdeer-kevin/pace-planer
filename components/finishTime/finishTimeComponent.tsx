@@ -30,6 +30,8 @@ export default function FinishTimeComponent() {
   const [selectedDistance, setSelectedDistance] = useState("?k");
   // State to keep track of the chosen endpoint
   const [endpoint, setEndpoint] = useState("Time");
+  // State to keep track of displayed result
+  const [displayedResult, setDisplayedResult] = useState<number>();
 
   // Method to handle submit via enter key
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -89,6 +91,10 @@ export default function FinishTimeComponent() {
     });
     const data = await response.json();
     setRaceResult(data);
+    setDisplayedResult(
+      data.find((result: IRacePace) => result.distance === selectedDistance)
+        ?.finishTime
+    );
     setLoading(false);
   };
 
@@ -109,6 +115,10 @@ export default function FinishTimeComponent() {
     });
     const data = await response.json();
     setRaceResult(data);
+    setDisplayedResult(
+      data.find((result: IRacePace) => result.distance === selectedDistance)
+        ?.finishTime
+    );
     setLoading(false);
   };
 
@@ -163,11 +173,7 @@ export default function FinishTimeComponent() {
               </p>
             ) : (
               <p className="text-yellow-400 text-center text-5xl font-mono">
-                {selectedDistance === "5k" && <>{raceResult[0].finishTime}</>}
-                {selectedDistance === "10k" && <>{raceResult[1].finishTime}</>}
-                {selectedDistance === "21k" && <>{raceResult[2].finishTime}</>}
-                {selectedDistance === "42k" && <>{raceResult[3].finishTime}</>}
-                {selectedDistance === "?k" && <>{raceResult[4].finishTime}</>}
+                {displayedResult}
               </p>
             )}
           </div>

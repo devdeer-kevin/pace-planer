@@ -7,30 +7,30 @@ interface IDistanceButtonProps {
   active: boolean;
   // Method to handle distance selection
   onDistanceSelected: (distance: string) => void;
-  onMousedown?: () => void;
+  // Method to handle displayed distance
+  displayedDistanceHandler: (distance: string) => void;
 }
 export default function DistanceButton(props: IDistanceButtonProps) {
-  {
-    // State to keep track of selected distance
-    const [selected, setSelected] = useState(false);
+  // State to keep track of selected distance
+  const [selected, setSelected] = useState(false);
 
-    // Method to handle button click
-    const handleClick = () => {
-      setSelected(!selected);
-      props.onDistanceSelected(props.distance);
-    };
+  // Method to handle button click
+  const handleClick = () => {
+    setSelected(!selected);
+    props.onDistanceSelected(props.distance);
+    props.displayedDistanceHandler(props.distance);
+  };
 
-    return (
-      <div>
-        <button
-          onMouseDown={handleClick}
-          className={`${
-            props.active && "border-yellow-400 border-2"
-          } bg-slate-700 h-11 w-11 rounded-lg text-slate-50`}
-        >
-          {props.distance}
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <button
+        onMouseDown={handleClick}
+        className={`${
+          props.active && "border-yellow-400 border-2"
+        } bg-slate-700 h-11 w-11 rounded-lg text-slate-50`}
+      >
+        {props.distance}
+      </button>
+    </div>
+  );
 }

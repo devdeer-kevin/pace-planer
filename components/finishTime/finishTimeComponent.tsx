@@ -122,6 +122,17 @@ export default function FinishTimeComponent() {
     setLoading(false);
   };
 
+  const displayedDistanceHandler = (selectedDistance: string) => {
+    if (!raceResult) {
+      return;
+    }
+    const currentDistance = raceResult.find(
+      (result: IRacePace) => result.distance === selectedDistance
+    )?.finishTime;
+    setDisplayedResult(currentDistance);
+    console.log("hallo");
+  };
+
   // Method to handle hours input
   const hoursHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (isNaN(Number(event.target.value))) {
@@ -210,26 +221,31 @@ export default function FinishTimeComponent() {
                   distance="5k"
                   onDistanceSelected={setSelectedDistance}
                   active={selectedDistance === "5k"}
+                  displayedDistanceHandler={displayedDistanceHandler}
                 />
                 <DistanceButton
                   distance="10k"
                   onDistanceSelected={setSelectedDistance}
                   active={selectedDistance === "10k"}
+                  displayedDistanceHandler={displayedDistanceHandler}
                 />
                 <DistanceButton
                   distance="21k"
                   onDistanceSelected={setSelectedDistance}
                   active={selectedDistance === "21k"}
+                  displayedDistanceHandler={displayedDistanceHandler}
                 />
                 <DistanceButton
                   distance="42k"
                   onDistanceSelected={setSelectedDistance}
                   active={selectedDistance === "42k"}
+                  displayedDistanceHandler={displayedDistanceHandler}
                 />
                 <DistanceButton
                   distance="?k"
                   onDistanceSelected={setSelectedDistance}
                   active={selectedDistance === "?k"}
+                  displayedDistanceHandler={displayedDistanceHandler}
                 />
               </div>
               <div className="flex flex-row justify-center w-full">

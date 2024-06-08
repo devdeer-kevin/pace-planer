@@ -130,7 +130,6 @@ export default function FinishTimeComponent() {
       (result: IRacePace) => result.distance === selectedDistance
     )?.finishTime;
     setDisplayedResult(currentDistance);
-    console.log("hallo");
   };
 
   // Method to handle hours input

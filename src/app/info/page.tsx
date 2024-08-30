@@ -8,9 +8,15 @@ export default async function Info() {
         Pace Planer &ndash; Laufzeiten intuitiv berechnen
       </h1>
       <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
-        <Link className="underline text-yellow-400" href="/release-notes">
-          Zu den Release Notes
-        </Link>
+        <div className="flex flex-row gap-6">
+          <Link className="underline text-yellow-400" href="/">
+            Zur App
+          </Link>
+          <div>|</div>
+          <Link className="underline text-yellow-400" href="/release-notes">
+            Zu den Release Notes
+          </Link>
+        </div>
         <p>
           Als passionierter Läufer kenne ich die Herausforderungen, die viele
           von uns beim Versuch erleben, ihre Laufzeiten und Paces zu berechnen.

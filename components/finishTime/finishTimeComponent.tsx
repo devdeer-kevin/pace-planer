@@ -10,7 +10,8 @@ import DistanceButton from "../distanceButton";
 
 interface IRacePace {
   distance: string;
-  finishTime: number;
+  finishTime: string;
+  clockTime: string;
 }
 
 export default function FinishTimeComponent() {
@@ -22,6 +23,8 @@ export default function FinishTimeComponent() {
   const [seconds, setSeconds] = useState("");
   // State to keep track of custom distance
   const [customDistance, setCustomDistance] = useState("");
+  // State to keep track of the custom start time
+  const [optionalStartTime, setOptionalStartTime] = useState<string>("00:00");
   // State to keep track of loading state
   const [loading, setLoading] = useState(false);
   // State to keep track of the API response
@@ -31,7 +34,11 @@ export default function FinishTimeComponent() {
   // State to keep track of the chosen endpoint
   const [endpoint, setEndpoint] = useState("Time");
   // State to keep track of displayed result
-  const [displayedResult, setDisplayedResult] = useState<number>();
+  const [displayedResult, setDisplayedResult] = useState<string>();
+  // State to keep track of the displayed clock time when a runner done
+  const [displayedClockTime, setDisplayedClockTime] = useState<
+    string | undefined
+  >("00:00");
 
   // Method to handle submit via enter key
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -73,7 +80,7 @@ export default function FinishTimeComponent() {
     }
   };
 
-  // Method to fetch data from Pace API
+  // Method to fetch data from Pace API to calculate the target pace
   const fetchPaceAPI = async () => {
     setLoading(true);
 
@@ -86,21 +93,26 @@ export default function FinishTimeComponent() {
         hours: hours,
         minutes: minutes,
         seconds: seconds,
-        distance: customDistance,
+        customDistance: customDistance,
       }),
     });
-    const data = await response.json();
+    const data: IRacePace[] = await response.json();
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setLoading(false);
   };
 
-  // Method to fetch data from Time API
+  // Method to fetch data from Time API to calculate the target duration
   const fetchTimeAPI = async () => {
     setLoading(true);
+
+    // Splitting the start time into hours and minutes
+    const startTimeStringArray = optionalStartTime.split(":");
+    const optionalStartTimeHours = startTimeStringArray[0];
+    const optionalStartTimeMinutes = startTimeStringArray[1];
 
     const response = await fetch("/api/v1/finishTime/", {
       method: "POST",
@@ -110,15 +122,22 @@ export default function FinishTimeComponent() {
       body: JSON.stringify({
         minutes: minutes,
         seconds: seconds,
-        distance: customDistance,
+        customDistance: customDistance,
+        optionalStartTimeHours: optionalStartTimeHours,
+        optionalStartTimeMinutes: optionalStartTimeMinutes,
       }),
     });
-    const data = await response.json();
+    const data: IRacePace[] = await response.json();
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
+    setDisplayedClockTime(
+      data.find((result: IRacePace) => result.distance === selectedDistance)
+        ?.clockTime,
+    );
+    console.log(displayedResult, displayedClockTime);
     setLoading(false);
   };
 
@@ -127,7 +146,7 @@ export default function FinishTimeComponent() {
       return;
     }
     const currentDistance = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance
+      (result: IRacePace) => result.distance === selectedDistance,
     )?.finishTime;
     setDisplayedResult(currentDistance);
   };
@@ -163,8 +182,14 @@ export default function FinishTimeComponent() {
     setCustomDistance(event.target.value);
   };
 
+  const startTimeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setOptionalStartTime(event.target.value);
+  };
+
   // Method to reset the input fields
   const resetPace = () => {
+    setOptionalStartTime("00:00");
+    setDisplayedClockTime("00:00");
     setHours("");
     setMinutes("");
     setSeconds("");
@@ -176,15 +201,29 @@ export default function FinishTimeComponent() {
     <>
       <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-[340px]">
         <div className="flex flex-col bg-slate-950 rounded-lg w-11/12">
-          <div className="flex flex-col items-center py-3">
+          <div className="flex flex-col h-20 items-center py-3">
             {raceResult.length <= 0 ? (
-              <p className="text-slate-500 text-center text-5xl font-mono">
-                00:00:00
-              </p>
+              <div>
+                <p className="text-slate-500 text-center text-5xl font-mono">
+                  00:00:00
+                </p>
+                {endpoint === "Time" && (
+                  <p className="text-slate-500 text-center text-sm font-mono">
+                    Zieleinlauf ist {displayedClockTime} Uhr
+                  </p>
+                )}
+              </div>
             ) : (
-              <p className="text-yellow-400 text-center text-5xl font-mono">
-                {displayedResult}
-              </p>
+              <div>
+                <p className="text-yellow-400 text-center text-5xl font-mono">
+                  {displayedResult}
+                </p>
+                {endpoint === "Time" && (
+                  <p className="text-yellow-600 text-center text-sm font-mono">
+                    Zieleinlauf ist {displayedClockTime} Uhr
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -247,20 +286,43 @@ export default function FinishTimeComponent() {
                   displayedDistanceHandler={displayedDistanceHandler}
                 />
               </div>
-              <div className="flex flex-row justify-center w-full">
-                <div className="flex flex-col items-center gap-2 w-full">
-                  <input
-                    placeholder="Individuelle Distanz in km"
-                    disabled={
-                      selectedDistance !== "?k" || raceResult.length > 0
-                    }
-                    aria-label="Individuelle Distanz in km"
-                    className="text-center font-mono text-lg py-1.5 w-full bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700 placeholder:text-xs"
-                    value={customDistance}
-                    onChange={distanceHandler}
-                    onKeyDown={handleSubmit}
-                    maxLength={4}
-                  />
+              <div className="flex flex-row justify-between items-end ">
+                <div className="flex flex-row gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-xs text-slate-700">
+                      Distanz in km
+                    </label>
+                    <input
+                      placeholder="KM"
+                      disabled={
+                        selectedDistance !== "?k" || raceResult.length > 0
+                      }
+                      aria-label="Individuelle Distanz in km"
+                      className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                      value={customDistance}
+                      onChange={distanceHandler}
+                      onKeyDown={handleSubmit}
+                      maxLength={4}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="font-mono text-xs text-slate-700">
+                      Startzeit
+                    </label>
+                    <input
+                      type="time"
+                      min="00:00"
+                      max="23:59"
+                      placeholder="Startzeit"
+                      disabled={raceResult.length > 0 || endpoint !== "Time"}
+                      aria-label="Startzeit"
+                      className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                      value={optionalStartTime}
+                      onChange={startTimeHandler}
+                      onKeyDown={handleSubmit}
+                      maxLength={4}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="flex flex-row justify-center items-end ">

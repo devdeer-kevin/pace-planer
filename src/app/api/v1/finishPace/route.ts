@@ -1,22 +1,35 @@
 import { NextResponse, NextRequest } from "next/server";
+import { ITimeRequestBody } from "../../../../../components/Types/IPaceRequest";
 
 export async function POST(req: NextRequest) {
   // Get minutes and seconds from request body
-  const body = await req.json();
-  const hours: number = body.hours;
-  const minutes: number = body.minutes;
-  const seconds: number = body.seconds;
-  const customDistance: number = body.distance;
+  const body: ITimeRequestBody = await req.json();
+  const hours = body.hours;
+  const minutes = body.minutes;
+  const seconds = body.seconds;
+  const customDistance = body.customDistance;
 
   // Function to pad numbers
   const pad = (num: number) => (num < 10 ? `0${num}` : num);
 
-  // Format pace
-  const convertedHoursInMinutes = Math.round(hours * 60);
-  const allMinutes = Number(convertedHoursInMinutes) + Number(minutes);
-  const decimalSeconds = pad(Math.round((seconds / 60) * 100));
-  const rawTargetTime = `${allMinutes}.${decimalSeconds}`;
-  const targetTime = Number(rawTargetTime);
+  /**
+   * Calculates the time a run will take with a given pace in minutes and seconds
+   */
+  const calculateTargetTime = (
+    hours: string,
+    minutes: string,
+    seconds: string,
+  ) => {
+    const convertedHoursInMinutes = Math.round(Number(hours) * 60);
+    const allMinutes = Number(convertedHoursInMinutes) + Number(minutes);
+    const decimalSeconds = pad(Math.round((Number(seconds) / 60) * 100));
+    const rawTargetTime = `${allMinutes}.${decimalSeconds}`;
+    const targetTime = Number(rawTargetTime);
+
+    return targetTime;
+  };
+
+  const targetTime = calculateTargetTime(hours, minutes, seconds);
 
   // Define distances
   const distances = [
@@ -24,7 +37,7 @@ export async function POST(req: NextRequest) {
     { name: "10k", length: 10 },
     { name: "21k", length: 21.0975 },
     { name: "42k", length: 42.195 },
-    { name: `?k`, length: customDistance },
+    { name: `?k`, length: Number(customDistance) },
   ];
 
   const convertToTime = (time: number) => {

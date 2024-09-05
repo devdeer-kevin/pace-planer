@@ -6,6 +6,7 @@
 
 - **Pace Calculation**: Enter your desired finish time to see the corresponding pace for your race distance.
 - **Finish Time Calculation**: Enter your desired pace to see the corresponding finish time for your race distance.
+- **Finish Clock Time**: Enter your start time to calculate when you’ll cross the finish line and celebrate with loved ones.
 - **Distance Support**: Supports a variety of distances, including 1Mile, 5K, 10K, half-marathon, and marathon.
 - **Custom Distance**: Calculate the finish time for your custom distance up to 9999 km.
 

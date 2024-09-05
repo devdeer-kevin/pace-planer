@@ -101,7 +101,7 @@ export default function FinishTimeComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setLoading(false);
   };
@@ -132,13 +132,12 @@ export default function FinishTimeComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setDisplayedClockTime(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.clockTime
+        ?.clockTime,
     );
-    console.log(displayedResult, displayedClockTime);
     setLoading(false);
   };
 
@@ -147,7 +146,7 @@ export default function FinishTimeComponent() {
       return;
     }
     const currentDistance = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance
+      (result: IRacePace) => result.distance === selectedDistance,
     )?.finishTime;
     setDisplayedResult(currentDistance);
   };

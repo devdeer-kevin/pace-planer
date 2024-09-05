@@ -213,7 +213,7 @@ export default function FinishTimeComponent() {
                 </p>
                 {endpoint === "Time" && (
                   <p className="text-slate-500 text-center text-sm font-mono">
-                    Zieleinlauf ist {displayedClockTime} Uhr
+                    Zieleinlauf um {displayedClockTime} Uhr
                   </p>
                 )}
               </div>
@@ -224,7 +224,7 @@ export default function FinishTimeComponent() {
                 </p>
                 {endpoint === "Time" && (
                   <p className="text-yellow-600 text-center text-sm font-mono">
-                    Zieleinlauf ist {displayedClockTime} Uhr
+                    Zieleinlauf um {displayedClockTime} Uhr
                   </p>
                 )}
               </div>

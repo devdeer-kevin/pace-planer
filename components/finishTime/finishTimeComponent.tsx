@@ -149,6 +149,10 @@ export default function FinishTimeComponent() {
       (result: IRacePace) => result.distance === selectedDistance,
     )?.finishTime;
     setDisplayedResult(currentDistance);
+    const currentClockTime = raceResult.find(
+      (result: IRacePace) => result.distance === selectedDistance,
+    )?.clockTime;
+    setDisplayedClockTime(currentClockTime || "00:00");
   };
 
   // Method to handle hours input

@@ -8,6 +8,17 @@ export default async function Info() {
         Release Notes - Pace Planer App
       </h1>
       <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
+        <label className="text-slate-600">05.09.2024 - Pace Planer 3.0.0</label>
+        <p>
+          Feature: Mit der neuen Zieleinlaufzeit-Funktion kannst du deine
+          Startzeit eingeben und berechnen, wann du die Ziellinie oder wichtige
+          Meilensteine wie 5k, 10k und mehr während des Laufs erreichst. So
+          kannst du deine Ankunftszeiten planen und den perfekten Moment mit
+          Freunden und Familie teilen, um deinen Fortschritt und Erfolg
+          gemeinsam zu feiern!
+        </p>
+      </div>
+      <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
         <label className="text-slate-600">26.05.2024 - Pace Planer 2.0.1</label>
         <p>
           Patch: Unsinnige Zeitangaben werden nun abgefangen und verhindert.

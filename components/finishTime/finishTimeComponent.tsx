@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/16/solid";
 import { ChangeEvent, useState, KeyboardEvent } from "react";
 import DistanceButton from "../distanceButton";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 // Interface for the response from the API
 interface IRacePace {
@@ -40,6 +41,8 @@ export default function FinishTimeComponent() {
   const [displayedClockTime, setDisplayedClockTime] = useState<
     string | undefined
   >("00:00");
+  // The current Date object
+  const now = new Date();
 
   // Method to handle submit via enter key
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -190,6 +193,14 @@ export default function FinishTimeComponent() {
     setOptionalStartTime(event.target.value);
   };
 
+  const pad = (num: number) => (num < 10 ? `0${num}` : num);
+
+  const clockTimeNowHandler = () => {
+    const nowHours = pad(now.getHours());
+    const nowMinutes = pad(now.getMinutes());
+    setOptionalStartTime(`${nowHours}:${nowMinutes}`);
+  };
+
   // Method to reset the input fields
   const resetPace = () => {
     setOptionalStartTime("00:00");
@@ -290,7 +301,7 @@ export default function FinishTimeComponent() {
                   displayedDistanceHandler={displayedDistanceHandler}
                 />
               </div>
-              <div className="flex flex-row justify-between items-end ">
+              <div className="flex flex-row justify-between items-end">
                 <div className="flex flex-row gap-6">
                   <div className="flex flex-col gap-2">
                     <label className="font-mono text-xs text-slate-700">
@@ -313,19 +324,28 @@ export default function FinishTimeComponent() {
                     <label className="font-mono text-xs text-slate-700">
                       Startzeit
                     </label>
-                    <input
-                      type="time"
-                      min="00:00"
-                      max="23:59"
-                      placeholder="Startzeit"
-                      disabled={raceResult.length > 0 || endpoint !== "Time"}
-                      aria-label="Startzeit"
-                      className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
-                      value={optionalStartTime}
-                      onChange={startTimeHandler}
-                      onKeyDown={handleSubmit}
-                      maxLength={4}
-                    />
+                    <div className=" flex flex-row">
+                      <input
+                        type="time"
+                        min="00:00"
+                        max="23:59"
+                        placeholder="Startzeit"
+                        disabled={raceResult.length > 0 || endpoint !== "Time"}
+                        aria-label="Startzeit"
+                        className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-20 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-l-md placeholder:text-slate-700"
+                        value={optionalStartTime}
+                        onChange={startTimeHandler}
+                        onKeyDown={handleSubmit}
+                        maxLength={4}
+                      />
+                      <button
+                        title="Akutelle Uhrzeit hinzugügen"
+                        onMouseDown={() => clockTimeNowHandler()}
+                        className="flex border border-1 border-slate-50 border-l-0 rounded-r-md p-2 justify-center items-center"
+                      >
+                        <ClockIcon className="w-4 h-4 text-slate-50" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

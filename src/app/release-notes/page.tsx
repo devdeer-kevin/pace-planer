@@ -8,6 +8,14 @@ export default async function Info() {
         Release Notes - Pace Planer App
       </h1>
       <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
+        <label className="text-slate-600">06.09.2024 - Pace Planer 3.1.0</label>
+        <p>
+          Feature: Mit einem einfachen Klick kannst du jetzt die aktuelle
+          Uhrzeit direkt in das Eingabefeld übernehmen. Das spart Zeit und macht
+          die Eingabe deiner Startzeit noch komfortabler.
+        </p>
+      </div>
+      <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
         <label className="text-slate-600">05.09.2024 - Pace Planer 3.0.0</label>
         <p>
           Feature: Mit der neuen Zieleinlaufzeit-Funktion kannst du deine

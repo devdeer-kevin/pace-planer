@@ -8,6 +8,15 @@ export default async function Info() {
         Release Notes - Pace Planer App
       </h1>
       <div className="flex flex-col gap-6 text-slate-400 leading-6 text-left text-md">
+        <div className="flex flex-row gap-6">
+          <Link className="underline text-yellow-400" href="/">
+            Zur App
+          </Link>
+          <div>|</div>
+          <Link className="underline text-yellow-400" href="/info">
+            Mehr über die App
+          </Link>
+        </div>
         <label className="text-slate-600">06.09.2024 - Pace Planer 3.1.0</label>
         <p>
           Feature: Mit einem einfachen Klick kannst du jetzt die aktuelle

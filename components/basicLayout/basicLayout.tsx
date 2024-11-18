@@ -8,6 +8,7 @@ import {
 import { ChangeEvent, useState, KeyboardEvent } from "react";
 import DistanceButton from "../distanceButton";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import { pad } from "../../utils/pad";
 
 // Interface for the response from the API
 interface IRacePace {
@@ -104,7 +105,7 @@ export default function BasicLayoutComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setLoading(false);
   };
@@ -135,11 +136,11 @@ export default function BasicLayoutComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setDisplayedClockTime(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.clockTime
+        ?.clockTime,
     );
     setLoading(false);
   };
@@ -149,11 +150,11 @@ export default function BasicLayoutComponent() {
       return;
     }
     const currentDistance = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance
+      (result: IRacePace) => result.distance === selectedDistance,
     )?.finishTime;
     setDisplayedResult(currentDistance);
     const currentClockTime = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance
+      (result: IRacePace) => result.distance === selectedDistance,
     )?.clockTime;
     setDisplayedClockTime(currentClockTime || "00:00");
   };
@@ -161,7 +162,7 @@ export default function BasicLayoutComponent() {
   // Unified method to handle time input
   const timeHandler = (
     event: ChangeEvent<HTMLInputElement>,
-    type: "hours" | "minutes" | "seconds"
+    type: "hours" | "minutes" | "seconds",
   ) => {
     if (isNaN(Number(event.target.value))) {
       return;
@@ -183,8 +184,6 @@ export default function BasicLayoutComponent() {
   const startTimeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setOptionalStartTime(event.target.value);
   };
-
-  const pad = (num: number) => (num < 10 ? `0${num}` : num);
 
   const clockTimeNowHandler = () => {
     const nowHours = pad(now.getHours());

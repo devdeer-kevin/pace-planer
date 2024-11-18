@@ -9,6 +9,7 @@ import { ChangeEvent, useState, KeyboardEvent } from "react";
 import DistanceButton from "../distanceButton";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { pad } from "../../utils/pad";
+import { availableDistances } from "../../utils/availableDistances";
 
 // Interface for the response from the API
 interface IRacePace {
@@ -82,8 +83,6 @@ export default function BasicLayoutComponent() {
   const handleMouseDown = () => {
     handleCalculation();
   };
-
-  const availableDistances = ["5k", "10k", "21k", "42k", "?k"];
 
   // Method to fetch data from Pace API to calculate the target pace
   const fetchPaceAPI = async () => {

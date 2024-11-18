@@ -312,7 +312,7 @@ export default function BasicLayoutComponent() {
                         maxLength={4}
                       />
                       <button
-                        title="Akutelle Uhrzeit hinzugügen"
+                        title="Aktuelle Uhrzeit hinzufügen"
                         onMouseDown={() => clockTimeNowHandler()}
                         className="flex border border-1 border-slate-50 border-l-0 rounded-r-md p-2 justify-center items-center"
                       >

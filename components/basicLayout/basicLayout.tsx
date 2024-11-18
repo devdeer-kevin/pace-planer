@@ -16,13 +16,12 @@ interface IRacePace {
   clockTime: string;
 }
 
-export default function FinishTimeComponent() {
-  // State to keep track of hours
-  const [hours, setHours] = useState("");
-  // State to keep track of minutes
-  const [minutes, setMinutes] = useState("");
-  // State to keep track of seconds
-  const [seconds, setSeconds] = useState("");
+export default function BasicLayoutComponent() {
+  const [time, setTime] = useState({
+    hours: "",
+    minutes: "",
+    seconds: "",
+  });
   // State to keep track of custom distance
   const [customDistance, setCustomDistance] = useState("");
   // State to keep track of the custom start time
@@ -44,45 +43,46 @@ export default function FinishTimeComponent() {
   // The current Date object
   const now = new Date();
 
+  // Common validation logic
+  const validateTime = () => {
+    if (Number(time.hours) >= 24) {
+      setTime({
+        ...time,
+        hours: "",
+        minutes: "59",
+        seconds: "59",
+      });
+      return false;
+    }
+    if (Number(time.seconds) >= 60) {
+      setTime({
+        ...time,
+        seconds: "59",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  // Common handler for API calls
+  const handleCalculation = () => {
+    if (!validateTime()) return;
+    endpoint === "Time" ? fetchTimeAPI() : fetchPaceAPI();
+  };
+
   // Method to handle submit via enter key
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (Number(hours) >= 24) {
-      setMinutes("59");
-      setSeconds("59");
-      return;
-    }
-    if (Number(seconds) >= 60) {
-      setSeconds("59");
-      return;
-    }
     if (event.key === "Enter" || event.key === "NumpadEnter") {
-      if (endpoint === "Time") {
-        fetchTimeAPI();
-      }
-      if (endpoint === "Pace") {
-        fetchPaceAPI();
-      }
+      handleCalculation();
     }
   };
 
   // Method to handle mouse down event
   const handleMouseDown = () => {
-    if (Number(hours) >= 24) {
-      setMinutes("59");
-      setSeconds("59");
-      return;
-    }
-    if (Number(seconds) >= 60) {
-      setSeconds("59");
-      return;
-    }
-    if (endpoint === "Time") {
-      fetchTimeAPI();
-    }
-    if (endpoint === "Pace") {
-      fetchPaceAPI();
-    }
+    handleCalculation();
   };
+
+  const availableDistances = ["5k", "10k", "21k", "42k", "?k"];
 
   // Method to fetch data from Pace API to calculate the target pace
   const fetchPaceAPI = async () => {
@@ -94,9 +94,9 @@ export default function FinishTimeComponent() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds,
+        hours: time.hours,
+        minutes: time.minutes,
+        seconds: time.seconds,
         customDistance: customDistance,
       }),
     });
@@ -104,7 +104,7 @@ export default function FinishTimeComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime,
+        ?.finishTime
     );
     setLoading(false);
   };
@@ -124,8 +124,8 @@ export default function FinishTimeComponent() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        minutes: minutes,
-        seconds: seconds,
+        minutes: time.minutes,
+        seconds: time.seconds,
         customDistance: customDistance,
         optionalStartTimeHours: optionalStartTimeHours,
         optionalStartTimeMinutes: optionalStartTimeMinutes,
@@ -135,11 +135,11 @@ export default function FinishTimeComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime,
+        ?.finishTime
     );
     setDisplayedClockTime(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.clockTime,
+        ?.clockTime
     );
     setLoading(false);
   };
@@ -149,36 +149,27 @@ export default function FinishTimeComponent() {
       return;
     }
     const currentDistance = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance,
+      (result: IRacePace) => result.distance === selectedDistance
     )?.finishTime;
     setDisplayedResult(currentDistance);
     const currentClockTime = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance,
+      (result: IRacePace) => result.distance === selectedDistance
     )?.clockTime;
     setDisplayedClockTime(currentClockTime || "00:00");
   };
 
-  // Method to handle hours input
-  const hoursHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  // Unified method to handle time input
+  const timeHandler = (
+    event: ChangeEvent<HTMLInputElement>,
+    type: "hours" | "minutes" | "seconds"
+  ) => {
     if (isNaN(Number(event.target.value))) {
       return;
     }
-    setHours(event.target.value);
-  };
-  // Method to handle minutes input
-  const minutesHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (isNaN(Number(event.target.value))) {
-      return;
-    }
-    setMinutes(event.target.value);
-  };
-
-  // Method to handle seconds input
-  const secondsHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (isNaN(Number(event.target.value))) {
-      return;
-    }
-    setSeconds(event.target.value);
+    setTime((prevTime) => ({
+      ...prevTime,
+      [type]: event.target.value,
+    }));
   };
 
   // Method to handle distance input
@@ -205,9 +196,11 @@ export default function FinishTimeComponent() {
   const resetPace = () => {
     setOptionalStartTime("00:00");
     setDisplayedClockTime("00:00");
-    setHours("");
-    setMinutes("");
-    setSeconds("");
+    setTime({
+      hours: "",
+      minutes: "",
+      seconds: "",
+    });
     setCustomDistance("");
     setRaceResult([]);
   };
@@ -270,36 +263,16 @@ export default function FinishTimeComponent() {
           <div>
             <div className="flex flex-col items-center gap-4 w-full">
               <div className="flex flex-row gap-2">
-                <DistanceButton
-                  distance="5k"
-                  onDistanceSelected={setSelectedDistance}
-                  active={selectedDistance === "5k"}
-                  displayedDistanceHandler={displayedDistanceHandler}
-                />
-                <DistanceButton
-                  distance="10k"
-                  onDistanceSelected={setSelectedDistance}
-                  active={selectedDistance === "10k"}
-                  displayedDistanceHandler={displayedDistanceHandler}
-                />
-                <DistanceButton
-                  distance="21k"
-                  onDistanceSelected={setSelectedDistance}
-                  active={selectedDistance === "21k"}
-                  displayedDistanceHandler={displayedDistanceHandler}
-                />
-                <DistanceButton
-                  distance="42k"
-                  onDistanceSelected={setSelectedDistance}
-                  active={selectedDistance === "42k"}
-                  displayedDistanceHandler={displayedDistanceHandler}
-                />
-                <DistanceButton
-                  distance="?k"
-                  onDistanceSelected={setSelectedDistance}
-                  active={selectedDistance === "?k"}
-                  displayedDistanceHandler={displayedDistanceHandler}
-                />
+                {availableDistances.map((distance, index) => (
+                  <div key={index}>
+                    <DistanceButton
+                      distance={String(distance)}
+                      onDistanceSelected={setSelectedDistance}
+                      active={selectedDistance === String(distance)}
+                      displayedDistanceHandler={displayedDistanceHandler}
+                    />
+                  </div>
+                ))}
               </div>
               <div className="flex flex-row justify-between items-end">
                 <div className="flex flex-row gap-6">
@@ -362,8 +335,8 @@ export default function FinishTimeComponent() {
                         disabled={raceResult.length > 0}
                         aria-label="Stunden eingeben"
                         className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
-                        value={hours}
-                        onChange={hoursHandler}
+                        value={time.hours}
+                        onChange={(e) => timeHandler(e, "hours")}
                         onKeyDown={handleSubmit}
                         maxLength={2}
                       />
@@ -377,8 +350,8 @@ export default function FinishTimeComponent() {
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
                       } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
-                      value={minutes}
-                      onChange={minutesHandler}
+                      value={time.minutes}
+                      onChange={(e) => timeHandler(e, "minutes")}
                       onKeyDown={handleSubmit}
                       maxLength={2}
                     />
@@ -391,8 +364,8 @@ export default function FinishTimeComponent() {
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
                       } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
-                      value={seconds}
-                      onChange={secondsHandler}
+                      value={time.seconds}
+                      onChange={(e) => timeHandler(e, "seconds")}
                       onKeyDown={handleSubmit}
                       maxLength={2}
                     />
@@ -404,9 +377,16 @@ export default function FinishTimeComponent() {
           <div>
             {raceResult.length <= 0 ? (
               <button
-                disabled={minutes === "" && hours === "" && seconds === ""}
+                disabled={
+                  time.minutes === "" &&
+                  time.hours === "" &&
+                  time.seconds === ""
+                }
                 className={`flex flex-col h-full justify-center ${
-                  (minutes === "" && hours === "" && seconds === "") || loading
+                  (time.minutes === "" &&
+                    time.hours === "" &&
+                    time.seconds === "") ||
+                  loading
                     ? "bg-slate-800"
                     : "bg-yellow-400"
                 }
@@ -420,7 +400,9 @@ export default function FinishTimeComponent() {
                 ) : (
                   <Bars2Icon
                     className={`${
-                      minutes === "" && hours === "" && seconds === ""
+                      time.minutes === "" &&
+                      time.hours === "" &&
+                      time.seconds === ""
                         ? "fill-slate-700"
                         : "fill-slate-50"
                     } h-4 w-4`}

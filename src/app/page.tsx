@@ -1,9 +1,9 @@
-import FinishTimeComponent from "../../components/finishTime";
+import App from "../../components/basicLayout";
 
 export default async function Home() {
   return (
     <div>
-      <FinishTimeComponent />
+      <App />
     </div>
   );
 }

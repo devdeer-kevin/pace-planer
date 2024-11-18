@@ -85,7 +85,7 @@ export default function BasicLayoutComponent() {
   };
 
   // Method to fetch data from Pace API to calculate the target pace
-  const fetchPaceAPI = async () => {
+  const fetchPaceAPI = useCallback(( async () => {
     setLoading(true);
 
     const response = await fetch("/api/v1/finishPace/", {
@@ -107,10 +107,10 @@ export default function BasicLayoutComponent() {
         ?.finishTime
     );
     setLoading(false);
-  };
+  }), [time, customDistance, selectedDistance]);
 
   // Method to fetch data from Time API to calculate the target duration
-  const fetchTimeAPI = async () => {
+  const fetchTimeAPI = useCallback(( async () => {
     setLoading(true);
 
     // Splitting the start time into hours and minutes
@@ -142,7 +142,7 @@ export default function BasicLayoutComponent() {
         ?.clockTime
     );
     setLoading(false);
-  };
+  }), [time, customDistance, optionalStartTime, selectedDistance]);
 
   const displayedDistanceHandler = useCallback(
     (selectedDistance: string) => {

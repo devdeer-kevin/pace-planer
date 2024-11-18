@@ -5,7 +5,7 @@ import {
   ArrowUturnLeftIcon,
   Bars2Icon,
 } from "@heroicons/react/16/solid";
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { ChangeEvent, useState, KeyboardEvent, useCallback } from "react";
 import DistanceButton from "../distanceButton";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { pad } from "../../utils/pad";
@@ -104,7 +104,7 @@ export default function BasicLayoutComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime,
+        ?.finishTime
     );
     setLoading(false);
   };
@@ -135,33 +135,36 @@ export default function BasicLayoutComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime,
+        ?.finishTime
     );
     setDisplayedClockTime(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.clockTime,
+        ?.clockTime
     );
     setLoading(false);
   };
 
-  const displayedDistanceHandler = (selectedDistance: string) => {
-    if (!raceResult) {
-      return;
-    }
-    const currentDistance = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance,
-    )?.finishTime;
-    setDisplayedResult(currentDistance);
-    const currentClockTime = raceResult.find(
-      (result: IRacePace) => result.distance === selectedDistance,
-    )?.clockTime;
-    setDisplayedClockTime(currentClockTime || "00:00");
-  };
+  const displayedDistanceHandler = useCallback(
+    (selectedDistance: string) => {
+      if (!raceResult) {
+        return;
+      }
+      const currentDistance = raceResult.find(
+        (result: IRacePace) => result.distance === selectedDistance
+      )?.finishTime;
+      setDisplayedResult(currentDistance);
+      const currentClockTime = raceResult.find(
+        (result: IRacePace) => result.distance === selectedDistance
+      )?.clockTime;
+      setDisplayedClockTime(currentClockTime || "00:00");
+    },
+    [raceResult]
+  );
 
   // Unified method to handle time input
   const timeHandler = (
     event: ChangeEvent<HTMLInputElement>,
-    type: "hours" | "minutes" | "seconds",
+    type: "hours" | "minutes" | "seconds"
   ) => {
     if (isNaN(Number(event.target.value))) {
       return;

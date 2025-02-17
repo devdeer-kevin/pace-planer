@@ -85,7 +85,7 @@ export default function BasicLayoutComponent() {
   };
 
   // Method to fetch data from Pace API to calculate the target pace
-  const fetchPaceAPI = useCallback(( async () => {
+  const fetchPaceAPI = useCallback(async () => {
     setLoading(true);
 
     const response = await fetch("/api/v1/finishPace/", {
@@ -107,10 +107,10 @@ export default function BasicLayoutComponent() {
         ?.finishTime
     );
     setLoading(false);
-  }), [time, customDistance, selectedDistance]);
+  }, [time, customDistance, selectedDistance]);
 
   // Method to fetch data from Time API to calculate the target duration
-  const fetchTimeAPI = useCallback(( async () => {
+  const fetchTimeAPI = useCallback(async () => {
     setLoading(true);
 
     // Splitting the start time into hours and minutes
@@ -142,7 +142,7 @@ export default function BasicLayoutComponent() {
         ?.clockTime
     );
     setLoading(false);
-  }), [time, customDistance, optionalStartTime, selectedDistance]);
+  }, [time, customDistance, optionalStartTime, selectedDistance]);
 
   const displayedDistanceHandler = useCallback(
     (selectedDistance: string) => {
@@ -313,9 +313,10 @@ export default function BasicLayoutComponent() {
                         maxLength={4}
                       />
                       <button
+                        disabled={raceResult.length > 0 || endpoint !== "Time"}
                         title="Aktuelle Uhrzeit hinzufügen"
                         onMouseDown={() => clockTimeNowHandler()}
-                        className="flex border border-1 border-slate-50 border-l-0 rounded-r-md p-2 justify-center items-center"
+                        className={`flex border border-1 border-slate-50 disabled:border-slate-700 border-l-0 rounded-r-md p-2 justify-center items-center`}
                       >
                         <ClockIcon className="w-4 h-4 text-slate-50" />
                       </button>

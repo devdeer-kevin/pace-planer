@@ -5,7 +5,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "./assets/Pace-Planer-Logo.svg";
-import { InformationCircleIcon } from "@heroicons/react/16/solid";
+import { Info } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Pace Planer - Die Pace Rechner App",
@@ -39,7 +39,7 @@ export default function RootLayout({
                 href="/info"
                 className="flex flex-row gap-1 font-mono items-center justify-center text-slate-600 text-sm"
               >
-                <InformationCircleIcon className="h-5 w-5" />
+                <Info className="h-5 w-5" />
                 Über Pace Planer
               </Link>
             </div>

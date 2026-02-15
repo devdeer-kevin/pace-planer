@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  ArrowPathIcon,
-  ArrowUturnLeftIcon,
-  Bars2Icon,
-} from "@heroicons/react/16/solid";
 import { ChangeEvent, useState, KeyboardEvent, useCallback } from "react";
 import DistanceButton from "../distanceButton";
-import { ClockIcon } from "@heroicons/react/24/outline";
 import { pad } from "../../utils/pad";
 import { availableDistances } from "../../utils/availableDistances";
+import { Clock, CornerUpLeft, Equal, Loader } from "lucide-react";
 
 // Interface for the response from the API
 interface IRacePace {
@@ -321,7 +316,7 @@ export default function BasicLayoutComponent() {
                         onMouseDown={() => clockTimeNowHandler()}
                         className={`flex border border-slate-50 disabled:border-slate-700 border-l-0 rounded-r-md p-2 justify-center items-center`}
                       >
-                        <ClockIcon className="w-4 h-4 text-slate-50" />
+                        <Clock className="w-4 h-4 text-slate-50" />
                       </button>
                     </div>
                   </div>
@@ -394,33 +389,33 @@ export default function BasicLayoutComponent() {
                     time.seconds === "") ||
                   loading
                     ? "bg-slate-800"
-                    : "bg-yellow-400"
+                    : "bg-yellow-400 cursor-pointer"
                 }
                  items-center w-12 rounded-lg`}
                 onMouseDown={handleMouseDown}
               >
                 {loading ? (
                   <>
-                    <ArrowPathIcon className="fill-yellow-400 h-4 w-4 animate-spin" />
+                    <Loader className="text-yellow-400 h-4 w-4 animate-spin" />
                   </>
                 ) : (
-                  <Bars2Icon
+                  <Equal
                     className={`${
                       time.minutes === "" &&
                       time.hours === "" &&
                       time.seconds === ""
-                        ? "fill-slate-700"
-                        : "fill-slate-50"
+                        ? "text-slate-700"
+                        : "text-slate-50"
                     } h-4 w-4`}
                   />
                 )}
               </button>
             ) : (
               <button
-                className="flex flex-col h-full justify-center items-center bg-yellow-400 w-12 rounded-lg"
+                className="flex flex-col h-full justify-center items-center bg-yellow-400 w-12 rounded-lg cursor-pointer"
                 onMouseDown={resetPace}
               >
-                <ArrowUturnLeftIcon className="fill-slate-50 h-4 w-4" />
+                <CornerUpLeft className="text-slate-50 h-4 w-4" />
               </button>
             )}
           </div>

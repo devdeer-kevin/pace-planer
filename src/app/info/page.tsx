@@ -1,4 +1,4 @@
-import { ScaleIcon } from "@heroicons/react/16/solid";
+import { Scale } from "lucide-react";
 import Link from "next/link";
 
 export default async function Info() {
@@ -63,7 +63,7 @@ export default async function Info() {
           dir Sorgen über ungewollte Datensammlungen machen zu müssen.
         </p>
         <p>
-          <ScaleIcon className="h-5 w-5 text-slate-600 inline" />{" "}
+          <Scale className="h-5 w-5 text-slate-600 inline" />{" "}
           <Link className="text-slate-600" href="/impressum">
             {" "}
             Zum Impressum

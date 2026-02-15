@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="de" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <nav className="fixed px-2 top-0 w-full bg-slate-950 bg-opacity-80 backdrop-blur-md">
           <div className="flex flex-row justify-between items-center p-4">

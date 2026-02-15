@@ -208,7 +208,7 @@ export default function BasicLayoutComponent() {
 
   return (
     <>
-      <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-[340px]">
+      <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-85">
         {/* Displayed result section */}
         <div className="flex flex-col bg-slate-950 rounded-lg w-11/12">
           <div className="flex flex-col h-20 items-center py-3">
@@ -290,7 +290,7 @@ export default function BasicLayoutComponent() {
                         selectedDistance !== "?k" || raceResult.length > 0
                       }
                       aria-label="Individuelle Distanz in km"
-                      className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                      className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-28 bg-transparent border border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                       value={customDistance}
                       onChange={distanceHandler}
                       onKeyDown={handleSubmit}
@@ -309,7 +309,7 @@ export default function BasicLayoutComponent() {
                         placeholder="Startzeit"
                         disabled={raceResult.length > 0 || endpoint !== "Time"}
                         aria-label="Startzeit"
-                        className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-20 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-l-md placeholder:text-slate-700"
+                        className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-20 bg-transparent border border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-l-md placeholder:text-slate-700"
                         value={optionalStartTime}
                         onChange={startTimeHandler}
                         onKeyDown={handleSubmit}
@@ -319,7 +319,7 @@ export default function BasicLayoutComponent() {
                         disabled={raceResult.length > 0 || endpoint !== "Time"}
                         title="Aktuelle Uhrzeit hinzufügen"
                         onMouseDown={() => clockTimeNowHandler()}
-                        className={`flex border border-1 border-slate-50 disabled:border-slate-700 border-l-0 rounded-r-md p-2 justify-center items-center`}
+                        className={`flex border border-slate-50 disabled:border-slate-700 border-l-0 rounded-r-md p-2 justify-center items-center`}
                       >
                         <ClockIcon className="w-4 h-4 text-slate-50" />
                       </button>
@@ -339,7 +339,7 @@ export default function BasicLayoutComponent() {
                         placeholder="HH"
                         disabled={raceResult.length > 0}
                         aria-label="Stunden eingeben"
-                        className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
+                        className="placeholder:text-xs text-center font-mono text-lg py-1.5 w-16 bg-transparent border border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700"
                         value={time.hours}
                         onChange={(e) => timeHandler(e, "hours")}
                         onKeyDown={handleSubmit}
@@ -354,7 +354,7 @@ export default function BasicLayoutComponent() {
                       aria-label="Minuten eingeben"
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
-                      } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
+                      } placeholder:text-xs bg-transparent border border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
                       value={time.minutes}
                       onChange={(e) => timeHandler(e, "minutes")}
                       onKeyDown={handleSubmit}
@@ -368,7 +368,7 @@ export default function BasicLayoutComponent() {
                       aria-label="Sekunden eingeben"
                       className={`text-center font-mono text-lg py-1.5 ${
                         endpoint === "Time" ? "w-28" : "w-16"
-                      } placeholder:text-xs bg-transparent border border-1 border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
+                      } placeholder:text-xs bg-transparent border border-slate-50 text-slate-50 disabled:text-slate-500 disabled:border-slate-700 rounded-md placeholder:text-slate-700`}
                       value={time.seconds}
                       onChange={(e) => timeHandler(e, "seconds")}
                       onKeyDown={handleSubmit}

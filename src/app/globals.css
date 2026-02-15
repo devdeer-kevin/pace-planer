@@ -1,23 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  @apply bg-slate-950;
+    @apply bg-slate-950;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    @apply bg-slate-950;
-  }
+    :root {
+        @apply bg-slate-950;
+    }
 }
 
 body {
-  @apply bg-slate-950;
+    @apply bg-slate-950;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }

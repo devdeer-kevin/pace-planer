@@ -4,7 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "/public/Pace-Planer-Logo.svg";
+import Logo from "./assets/Pace-Planer-Logo.svg";
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 
 export const metadata: Metadata = {

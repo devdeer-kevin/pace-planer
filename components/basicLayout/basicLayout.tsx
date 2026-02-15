@@ -104,7 +104,7 @@ export default function BasicLayoutComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setLoading(false);
   }, [time, customDistance, selectedDistance]);
@@ -135,11 +135,11 @@ export default function BasicLayoutComponent() {
     setRaceResult(data);
     setDisplayedResult(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime
+        ?.finishTime,
     );
     setDisplayedClockTime(
       data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.clockTime
+        ?.clockTime,
     );
     setLoading(false);
   }, [time, customDistance, optionalStartTime, selectedDistance]);
@@ -150,21 +150,21 @@ export default function BasicLayoutComponent() {
         return;
       }
       const currentDistance = raceResult.find(
-        (result: IRacePace) => result.distance === selectedDistance
+        (result: IRacePace) => result.distance === selectedDistance,
       )?.finishTime;
       setDisplayedResult(currentDistance);
       const currentClockTime = raceResult.find(
-        (result: IRacePace) => result.distance === selectedDistance
+        (result: IRacePace) => result.distance === selectedDistance,
       )?.clockTime;
       setDisplayedClockTime(currentClockTime || "00:00");
     },
-    [raceResult]
+    [raceResult],
   );
 
   // Unified method to handle time input
   const timeHandler = (
     event: ChangeEvent<HTMLInputElement>,
-    type: "hours" | "minutes" | "seconds"
+    type: "hours" | "minutes" | "seconds",
   ) => {
     if (isNaN(Number(event.target.value))) {
       return;
@@ -209,6 +209,7 @@ export default function BasicLayoutComponent() {
   return (
     <>
       <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-[340px]">
+        {/* Displayed result section */}
         <div className="flex flex-col bg-slate-950 rounded-lg w-11/12">
           <div className="flex flex-col h-20 items-center py-3">
             {raceResult.length <= 0 ? (
@@ -236,6 +237,7 @@ export default function BasicLayoutComponent() {
             )}
           </div>
         </div>
+        {/* Endpoint selection buttons */}
         <div className="flex w-11/12 justify-end -mt-2 pb-2">
           <div className="flex flex-row gap-2">
             <button
@@ -262,6 +264,7 @@ export default function BasicLayoutComponent() {
         </div>
         <div className="flex flex-row gap-2">
           <div>
+            {/* Distance selection buttons and input fields */}
             <div className="flex flex-col items-center gap-4 w-full">
               <div className="flex flex-row gap-2">
                 {availableDistances.map((distance, index) => (
@@ -376,6 +379,7 @@ export default function BasicLayoutComponent() {
               </div>
             </div>
           </div>
+          {/*Submit Button*/}
           <div>
             {raceResult.length <= 0 ? (
               <button

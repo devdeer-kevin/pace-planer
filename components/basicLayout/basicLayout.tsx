@@ -1,10 +1,23 @@
 "use client";
 
-import { ChangeEvent, useState, KeyboardEvent, useCallback } from "react";
+import {
+  ChangeEvent,
+  useState,
+  KeyboardEvent,
+  useCallback,
+  useMemo,
+} from "react";
+import dynamic from "next/dynamic";
 import DistanceButton from "../distanceButton";
 import { pad } from "../../utils/pad";
 import { availableDistances } from "../../utils/availableDistances";
 import { Clock, CornerUpLeft, Equal, Loader } from "lucide-react";
+import type { ChartDataPoint } from "../paceSplitChart/paceSplitChartInner";
+
+const PaceSplitChart = dynamic(
+  () => import("../paceSplitChart/paceSplitChartInner"),
+  { ssr: false },
+);
 
 // Interface for the response from the API
 interface IRacePace {
@@ -37,6 +50,8 @@ export default function BasicLayoutComponent() {
   const [displayedClockTime, setDisplayedClockTime] = useState<
     string | undefined
   >("00:00");
+  // State to toggle between number and chart display
+  const [displayMode, setDisplayMode] = useState<"NUM" | "CHART">("NUM");
   // The current Date object
   const now = new Date();
 
@@ -80,64 +95,114 @@ export default function BasicLayoutComponent() {
   };
 
   // Method to fetch data from Pace API to calculate the target pace
-  const fetchPaceAPI = useCallback(async () => {
-    setLoading(true);
+  const fetchPaceAPI = useCallback(
+    async (timeOverride?: typeof time) => {
+      setLoading(true);
+      const t = timeOverride ?? time;
 
-    const response = await fetch("/api/v1/finishPace/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        hours: time.hours,
-        minutes: time.minutes,
-        seconds: time.seconds,
-        customDistance: customDistance,
-      }),
-    });
-    const data: IRacePace[] = await response.json();
-    setRaceResult(data);
-    setDisplayedResult(
-      data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime,
-    );
-    setLoading(false);
-  }, [time, customDistance, selectedDistance]);
+      const response = await fetch("/api/v1/finishPace/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          hours: t.hours,
+          minutes: t.minutes,
+          seconds: t.seconds,
+          customDistance: customDistance,
+        }),
+      });
+      const data: IRacePace[] = await response.json();
+      setRaceResult(data);
+      setDisplayedResult(
+        data.find((result: IRacePace) => result.distance === selectedDistance)
+          ?.finishTime,
+      );
+      setLoading(false);
+    },
+    [time, customDistance, selectedDistance],
+  );
 
   // Method to fetch data from Time API to calculate the target duration
-  const fetchTimeAPI = useCallback(async () => {
-    setLoading(true);
+  const fetchTimeAPI = useCallback(
+    async (timeOverride?: typeof time) => {
+      setLoading(true);
+      const t = timeOverride ?? time;
 
-    // Splitting the start time into hours and minutes
-    const startTimeStringArray = optionalStartTime.split(":");
-    const optionalStartTimeHours = startTimeStringArray[0];
-    const optionalStartTimeMinutes = startTimeStringArray[1];
+      // Splitting the start time into hours and minutes
+      const startTimeStringArray = optionalStartTime.split(":");
+      const optionalStartTimeHours = startTimeStringArray[0];
+      const optionalStartTimeMinutes = startTimeStringArray[1];
 
-    const response = await fetch("/api/v1/finishTime/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        minutes: time.minutes,
-        seconds: time.seconds,
-        customDistance: customDistance,
-        optionalStartTimeHours: optionalStartTimeHours,
-        optionalStartTimeMinutes: optionalStartTimeMinutes,
-      }),
-    });
-    const data: IRacePace[] = await response.json();
-    setRaceResult(data);
-    setDisplayedResult(
-      data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.finishTime,
-    );
-    setDisplayedClockTime(
-      data.find((result: IRacePace) => result.distance === selectedDistance)
-        ?.clockTime,
-    );
-    setLoading(false);
-  }, [time, customDistance, optionalStartTime, selectedDistance]);
+      const response = await fetch("/api/v1/finishTime/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          minutes: t.minutes,
+          seconds: t.seconds,
+          customDistance: customDistance,
+          optionalStartTimeHours: optionalStartTimeHours,
+          optionalStartTimeMinutes: optionalStartTimeMinutes,
+        }),
+      });
+      const data: IRacePace[] = await response.json();
+      setRaceResult(data);
+      setDisplayedResult(
+        data.find((result: IRacePace) => result.distance === selectedDistance)
+          ?.finishTime,
+      );
+      setDisplayedClockTime(
+        data.find((result: IRacePace) => result.distance === selectedDistance)
+          ?.clockTime,
+      );
+      setLoading(false);
+    },
+    [time, customDistance, optionalStartTime, selectedDistance],
+  );
+
+  // Switch endpoint and, if results exist, transfer the current result into the
+  // opposing mode's input fields so the user sees the cross-calculation immediately.
+  const handleEndpointSwitch = useCallback(
+    async (newEndpoint: string) => {
+      if (newEndpoint === endpoint) return;
+
+      if (raceResult.length > 0 && displayedResult) {
+        const parts = displayedResult.split(":");
+        if (parts.length !== 3) {
+          setEndpoint(newEndpoint);
+          return;
+        }
+        const [h, m, s] = parts.map((p) => parseInt(p));
+
+        if (newEndpoint === "Pace") {
+          // displayedResult is finish time (hh:mm:ss) → use as target time for Zielpace
+          const newTime = {
+            hours: String(h),
+            minutes: String(m),
+            seconds: String(s),
+          };
+          setTime(newTime);
+          setEndpoint(newEndpoint);
+          await fetchPaceAPI(newTime);
+        } else {
+          // displayedResult is pace per km (hh:mm:ss, e.g. 00:04:30) → use mm:ss for Zielzeit
+          const newTime = {
+            hours: "",
+            minutes: String(m),
+            seconds: String(s),
+          };
+          setTime(newTime);
+          setEndpoint(newEndpoint);
+          await fetchTimeAPI(newTime);
+        }
+      } else {
+        setEndpoint(newEndpoint);
+      }
+    },
+    [endpoint, raceResult, displayedResult, fetchPaceAPI, fetchTimeAPI],
+  );
 
   const displayedDistanceHandler = useCallback(
     (selectedDistance: string) => {
@@ -188,6 +253,78 @@ export default function BasicLayoutComponent() {
     setOptionalStartTime(`${nowHours}:${nowMinutes}`);
   };
 
+  // Compute per-km split data for the chart
+  const chartData = useMemo<ChartDataPoint[]>(() => {
+    let paceSeconds = 0;
+
+    if (endpoint === "Time") {
+      // Pace is entered directly as MM:SS
+      const mins = parseInt(time.minutes) || 0;
+      const secs = parseInt(time.seconds) || 0;
+      paceSeconds = mins * 60 + secs;
+    } else {
+      // Pace is the API result (hh:mm:ss per km)
+      if (!displayedResult) return [];
+      const parts = displayedResult.split(":");
+      if (parts.length === 3) {
+        paceSeconds =
+          parseInt(parts[0]) * 3600 +
+          parseInt(parts[1]) * 60 +
+          parseInt(parts[2]);
+      } else if (parts.length === 2) {
+        paceSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+      }
+    }
+
+    if (paceSeconds === 0) return [];
+
+    let distanceKm = 0;
+    if (selectedDistance === "5k") distanceKm = 5;
+    else if (selectedDistance === "10k") distanceKm = 10;
+    else if (selectedDistance === "21k") distanceKm = 21.0975;
+    else if (selectedDistance === "42k") distanceKm = 42.195;
+    else distanceKm = parseFloat(customDistance) || 0;
+
+    if (distanceKm <= 0) return [];
+
+    const data: ChartDataPoint[] = [];
+    const totalKm = Math.floor(distanceKm);
+
+    for (let km = 1; km <= totalKm; km++) {
+      const elapsedSeconds = paceSeconds * km;
+      const h = Math.floor(elapsedSeconds / 3600);
+      const m = Math.floor((elapsedSeconds % 3600) / 60);
+      const s = elapsedSeconds % 60;
+      data.push({
+        km,
+        elapsed: elapsedSeconds,
+        tooltip: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
+      });
+    }
+
+    // Add fractional finish km for distances like 21.0975 and 42.195
+    if (distanceKm > totalKm) {
+      const elapsedSeconds = Math.round(paceSeconds * distanceKm);
+      const h = Math.floor(elapsedSeconds / 3600);
+      const m = Math.floor((elapsedSeconds % 3600) / 60);
+      const s = elapsedSeconds % 60;
+      data.push({
+        km: distanceKm,
+        elapsed: elapsedSeconds,
+        tooltip: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
+      });
+    }
+
+    return data;
+  }, [
+    endpoint,
+    time.minutes,
+    time.seconds,
+    displayedResult,
+    selectedDistance,
+    customDistance,
+  ]);
+
   // Method to reset the input fields
   const resetPace = () => {
     setOptionalStartTime("00:00");
@@ -206,52 +343,83 @@ export default function BasicLayoutComponent() {
       <div className="flex flex-col py-8 bg-slate-900 mt-10 items-center rounded-xl gap-4 w-85">
         {/* Displayed result section */}
         <div className="flex flex-col bg-slate-950 rounded-lg w-11/12">
-          <div className="flex flex-col h-20 items-center py-3">
-            {raceResult.length <= 0 ? (
-              <div>
-                <p className="text-slate-500 text-center text-5xl font-mono">
-                  00:00:00
-                </p>
-                {endpoint === "Time" && (
-                  <p className="text-slate-500 text-center text-sm font-mono">
-                    Zieleinlauf um {displayedClockTime} Uhr
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div>
-                <p className="text-yellow-400 text-center text-5xl font-mono">
-                  {displayedResult}
-                </p>
-                {endpoint === "Time" && (
-                  <p className="text-yellow-600 text-center text-sm font-mono">
-                    Zieleinlauf um {displayedClockTime} Uhr
-                  </p>
-                )}
-              </div>
-            )}
+          {/* Mode toggle — NUM / CHART, styled like DEG/RAD on a Casio */}
+          <div className="flex justify-end items-center px-2 pt-1.5">
+            <div className="flex gap-2 font-mono text-xs">
+              <button
+                onClick={() => setDisplayMode("NUM")}
+                className={`cursor-pointer ${displayMode === "NUM" ? "text-yellow-400" : "text-slate-600"}`}
+              >
+                NUM
+              </button>
+              <button
+                onClick={() => setDisplayMode("CHART")}
+                className={`cursor-pointer ${displayMode === "CHART" ? "text-yellow-400" : "text-slate-600"}`}
+              >
+                CHART
+              </button>
+            </div>
           </div>
+          {displayMode === "NUM" ? (
+            <div className="flex flex-col h-44 items-center justify-center py-3">
+              {raceResult.length <= 0 ? (
+                <div>
+                  <p className="text-slate-500 text-center text-5xl font-mono">
+                    00:00:00
+                  </p>
+                  {endpoint === "Time" && (
+                    <p className="text-slate-500 text-center text-sm font-mono">
+                      Zieleinlauf um {displayedClockTime} Uhr
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <p className="text-yellow-400 text-center text-5xl font-mono">
+                    {displayedResult}
+                  </p>
+                  {endpoint === "Time" && (
+                    <p className="text-yellow-600 text-center text-sm font-mono">
+                      Zieleinlauf um {displayedClockTime} Uhr
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="h-44 p-2">
+              {chartData.length > 0 ? (
+                <PaceSplitChart data={chartData} />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="font-mono text-xs text-slate-600">
+                    keine Eingabe
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         {/* Endpoint selection buttons */}
         <div className="flex w-11/12 justify-end -mt-2 pb-2">
           <div className="flex flex-row gap-2">
             <button
-              onClick={() => setEndpoint("Time")}
+              onClick={() => handleEndpointSwitch("Time")}
               className={`bg-slate-950 ${
                 endpoint === "Time"
                   ? "text-slate-50 font-bold"
                   : "text-slate-700 font-normal"
-              } py-1 px-1.5 rounded-md`}
+              } py-1 px-1.5 rounded-md cursor-pointer`}
             >
               Zielzeit
             </button>
             <button
-              onClick={() => setEndpoint("Pace")}
+              onClick={() => handleEndpointSwitch("Pace")}
               className={`bg-slate-950 ${
                 endpoint === "Pace"
                   ? "text-slate-50 font-bold"
                   : "text-slate-700 font-normal"
-              }py-1 px-1.5 rounded-md`}
+              } py-1 px-1.5 rounded-md cursor-pointer`}
             >
               Zielpace
             </button>

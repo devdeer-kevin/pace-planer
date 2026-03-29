@@ -5,6 +5,8 @@ interface IDistanceButtonProps {
   distance: string;
   // Boolean to check if the button is active
   active: boolean;
+  // Boolean to check if the button is disabled
+  disabled?: boolean;
   // Method to handle distance selection
   onDistanceSelected: (distance: string) => void;
   // Method to handle displayed distance
@@ -25,9 +27,10 @@ export default function DistanceButton(props: IDistanceButtonProps) {
     <div>
       <button
         onMouseDown={handleClick}
+        disabled={props.disabled}
         className={`${
           props.active && "border-yellow-400 border-2"
-        } bg-slate-700 h-11 w-11 rounded-lg text-slate-50`}
+        } bg-slate-700 h-11 w-11 rounded-lg text-slate-50 disabled:text-slate-500 disabled:border-0`}
       >
         {props.distance}
       </button>

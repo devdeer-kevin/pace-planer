@@ -367,22 +367,18 @@ export default function BasicLayoutComponent() {
                   <p className="text-slate-500 text-center text-5xl font-mono">
                     00:00:00
                   </p>
-                  {endpoint === "Time" && (
-                    <p className="text-slate-500 text-center text-sm font-mono">
-                      Zieleinlauf um {displayedClockTime} Uhr
-                    </p>
-                  )}
+                  <p className="text-slate-500 text-center text-sm font-mono">
+                    Zieleinlauf um {displayedClockTime} Uhr
+                  </p>
                 </div>
               ) : (
                 <div>
                   <p className="text-yellow-400 text-center text-5xl font-mono">
                     {displayedResult}
                   </p>
-                  {endpoint === "Time" && (
-                    <p className="text-yellow-600 text-center text-sm font-mono">
-                      Zieleinlauf um {displayedClockTime} Uhr
-                    </p>
-                  )}
+                  <p className="text-yellow-600 text-center text-sm font-mono">
+                    Zieleinlauf um {displayedClockTime} Uhr
+                  </p>
                 </div>
               )}
             </div>
@@ -437,6 +433,7 @@ export default function BasicLayoutComponent() {
                       onDistanceSelected={setSelectedDistance}
                       active={selectedDistance === String(distance)}
                       displayedDistanceHandler={displayedDistanceHandler}
+                      disabled={String(distance) === "?k" && raceResult.length > 0 && !customDistance}
                     />
                   </div>
                 ))}

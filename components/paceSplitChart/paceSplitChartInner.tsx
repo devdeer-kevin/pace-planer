@@ -29,8 +29,9 @@ const formatDurationAxis = (seconds: number) => {
 };
 
 const formatPaceAxis = (seconds: number) => {
-  const m = Math.floor(seconds / 60);
-  const s = Math.round(seconds % 60);
+  let m = Math.floor(seconds / 60);
+  let s = Math.round(seconds % 60);
+  if (s === 60) { m += 1; s = 0; }
   return `${pad(m)}:${pad(s)}`;
 };
 

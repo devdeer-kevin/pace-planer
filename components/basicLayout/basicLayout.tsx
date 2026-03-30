@@ -467,6 +467,7 @@ export default function BasicLayoutComponent() {
                   onClick={() => setSplitStrategy("LINEAR")}
                   className="cursor-pointer"
                   style={{ opacity: splitStrategy === "LINEAR" ? 1 : 0.35 }}
+                  title="Linear — gleichmäßiges Tempo"
                 >
                   <div className="w-3.5 h-3.5 rounded-full border border-yellow-400 flex items-center justify-center">
                     <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
@@ -478,6 +479,7 @@ export default function BasicLayoutComponent() {
                   onClick={() => setSplitStrategy("NEGATIVE")}
                   className="cursor-pointer"
                   style={{ opacity: splitStrategy === "NEGATIVE" ? 1 : 0.35 }}
+                  title="Negative Split — zweite Hälfte schneller"
                 >
                   <div className="w-3.5 h-3.5 rounded-full border border-green-400 flex items-center justify-center">
                     <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
@@ -489,6 +491,7 @@ export default function BasicLayoutComponent() {
                   onClick={() => setSplitStrategy("POSITIVE")}
                   className="cursor-pointer"
                   style={{ opacity: splitStrategy === "POSITIVE" ? 1 : 0.35 }}
+                  title="Positive Split — zweite Hälfte langsamer"
                 >
                   <div className="w-3.5 h-3.5 rounded-full border border-red-400 flex items-center justify-center">
                     <svg viewBox="0 0 16 16" width="6" height="6" fill="none">

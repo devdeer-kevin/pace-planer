@@ -15,6 +15,7 @@ export interface ChartDataPoint {
 
 interface PaceSplitChartProps {
   data: ChartDataPoint[];
+  lineColor?: string;
 }
 
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
@@ -60,7 +61,7 @@ const CustomTooltip = ({
   return null;
 };
 
-export default function PaceSplitChartInner({ data }: PaceSplitChartProps) {
+export default function PaceSplitChartInner({ data, lineColor = "#fbbf24" }: PaceSplitChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data} margin={{ top: 8, right: 10, left: -12, bottom: 4 }}>
@@ -85,10 +86,10 @@ export default function PaceSplitChartInner({ data }: PaceSplitChartProps) {
         <Line
           type="monotone"
           dataKey="elapsed"
-          stroke="#fbbf24"
+          stroke={lineColor}
           strokeWidth={2}
           dot={false}
-          activeDot={{ r: 3, fill: "#fbbf24", strokeWidth: 0 }}
+          activeDot={{ r: 3, fill: lineColor, strokeWidth: 0 }}
         />
       </LineChart>
     </ResponsiveContainer>

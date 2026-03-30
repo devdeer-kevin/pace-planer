@@ -52,6 +52,8 @@ export default function BasicLayoutComponent() {
   >("00:00");
   // State to toggle between number and chart display
   const [displayMode, setDisplayMode] = useState<"NUM" | "CHART">("NUM");
+  // State to track split strategy for the chart
+  const [splitStrategy, setSplitStrategy] = useState<"LINEAR" | "NEGATIVE" | "POSITIVE">("LINEAR");
   // The current Date object
   const now = new Date();
 
@@ -287,30 +289,39 @@ export default function BasicLayoutComponent() {
 
     if (distanceKm <= 0) return [];
 
-    const data: ChartDataPoint[] = [];
-    const totalKm = Math.floor(distanceKm);
+    const FACTOR = 0.05;
+    const N = Math.ceil(distanceKm);
 
-    for (let km = 1; km <= totalKm; km++) {
-      const elapsedSeconds = paceSeconds * km;
-      const h = Math.floor(elapsedSeconds / 3600);
-      const m = Math.floor((elapsedSeconds % 3600) / 60);
-      const s = elapsedSeconds % 60;
+    // Compute raw pace per segment (segment i covers km i to min(i+1, distanceKm))
+    const segLengths = Array.from({ length: N }, (_, i) =>
+      Math.min(1, distanceKm - i),
+    );
+    const rawPaces = Array.from({ length: N }, (_, i) => {
+      const progress = N > 1 ? i / (N - 1) : 0;
+      if (splitStrategy === "NEGATIVE") {
+        return paceSeconds * (1 + FACTOR - 2 * FACTOR * progress);
+      } else if (splitStrategy === "POSITIVE") {
+        return paceSeconds * (1 - FACTOR + 2 * FACTOR * progress);
+      }
+      return paceSeconds;
+    });
+
+    // Normalize so total time stays exactly avgPace × distanceKm
+    const totalRaw = rawPaces.reduce((sum, rp, i) => sum + rp * segLengths[i], 0);
+    const correctionFactor = (paceSeconds * distanceKm) / totalRaw;
+
+    const data: ChartDataPoint[] = [];
+    let cumulative = 0;
+    for (let i = 0; i < N; i++) {
+      cumulative += rawPaces[i] * correctionFactor * segLengths[i];
+      const elapsed = Math.round(cumulative);
+      const h = Math.floor(elapsed / 3600);
+      const m = Math.floor((elapsed % 3600) / 60);
+      const s = elapsed % 60;
+      const km = i < N - 1 ? i + 1 : distanceKm;
       data.push({
         km,
-        elapsed: elapsedSeconds,
-        tooltip: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
-      });
-    }
-
-    // Add fractional finish km for distances like 21.0975 and 42.195
-    if (distanceKm > totalKm) {
-      const elapsedSeconds = Math.round(paceSeconds * distanceKm);
-      const h = Math.floor(elapsedSeconds / 3600);
-      const m = Math.floor((elapsedSeconds % 3600) / 60);
-      const s = elapsedSeconds % 60;
-      data.push({
-        km: distanceKm,
-        elapsed: elapsedSeconds,
+        elapsed,
         tooltip: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
       });
     }
@@ -323,6 +334,7 @@ export default function BasicLayoutComponent() {
     displayedResult,
     selectedDistance,
     customDistance,
+    splitStrategy,
   ]);
 
   // Method to reset the input fields
@@ -383,16 +395,64 @@ export default function BasicLayoutComponent() {
               )}
             </div>
           ) : (
-            <div className="h-44 p-2">
-              {chartData.length > 0 ? (
-                <PaceSplitChart data={chartData} />
-              ) : (
-                <div className="flex items-center justify-center h-full">
-                  <p className="font-mono text-xs text-slate-600">
-                    keine Eingabe
-                  </p>
-                </div>
-              )}
+            <div className="h-44 p-2 flex flex-col">
+              {/* Chart or empty state */}
+              <div className="flex-1 min-h-0">
+                {chartData.length > 0 ? (
+                  <PaceSplitChart
+                    data={chartData}
+                    lineColor={
+                      splitStrategy === "LINEAR"
+                        ? "#fbbf24"
+                        : splitStrategy === "NEGATIVE"
+                          ? "#4ade80"
+                          : "#f87171"
+                    }
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="font-mono text-xs text-slate-600">
+                      keine Eingabe
+                    </p>
+                  </div>
+                )}
+              </div>
+              {/* Split strategy selector — only visible in CHART mode */}
+              <div className="flex gap-1.5 justify-end pt-0.5">
+                <button
+                  onClick={() => setSplitStrategy("LINEAR")}
+                  className="cursor-pointer"
+                  style={{ opacity: splitStrategy === "LINEAR" ? 1 : 0.35 }}
+                >
+                  <div className="w-3.5 h-3.5 rounded-full border border-yellow-400 flex items-center justify-center">
+                    <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
+                      <line x1="2" y1="14" x2="14" y2="2" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setSplitStrategy("NEGATIVE")}
+                  className="cursor-pointer"
+                  style={{ opacity: splitStrategy === "NEGATIVE" ? 1 : 0.35 }}
+                >
+                  <div className="w-3.5 h-3.5 rounded-full border border-green-400 flex items-center justify-center">
+                    <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
+                      <path d="M2,14 Q4,2 14,2" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setSplitStrategy("POSITIVE")}
+                  className="cursor-pointer"
+                  style={{ opacity: splitStrategy === "POSITIVE" ? 1 : 0.35 }}
+                >
+                  <div className="w-3.5 h-3.5 rounded-full border border-red-400 flex items-center justify-center">
+                    <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
+                      <path d="M2,14 Q14,14 14,2" stroke="#f87171" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </button>
+              </div>
             </div>
           )}
         </div>

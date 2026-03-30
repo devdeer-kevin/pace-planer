@@ -409,22 +409,6 @@ export default function BasicLayoutComponent() {
             </div>
           ) : (
             <div className="h-44 p-2 flex flex-col">
-              {/* Curve type selector — top left, only meaningful for NEGATIVE/POSITIVE */}
-              <div
-                className="flex gap-2 font-mono text-[9px] pb-0.5"
-                style={{ opacity: splitStrategy === "LINEAR" ? 0.3 : 1 }}
-              >
-                {(["lin", "exp", "sin"] as const).map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setCurveType(c)}
-                    disabled={splitStrategy === "LINEAR"}
-                    className={`cursor-pointer uppercase ${curveType === c ? "text-slate-400" : "text-slate-700"}`}
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
               {/* Chart or empty state */}
               <div className="flex-1 min-h-0">
                 {chartData.length > 0 ? (
@@ -462,6 +446,21 @@ export default function BasicLayoutComponent() {
                 >
                   PACE
                 </button>
+                {yMode === "pace" && (
+                  <>
+                    <span className="text-slate-800">|</span>
+                    {(["lin", "exp", "sin"] as const).map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => setCurveType(c)}
+                        disabled={splitStrategy === "LINEAR"}
+                        className={`uppercase ${splitStrategy === "LINEAR" ? "text-slate-800" : curveType === c ? "text-slate-400 cursor-pointer" : "text-slate-700 cursor-pointer"}`}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                  </>
+                )}
               </div>
               <div className="flex gap-1.5">
                 <button

@@ -10,20 +10,28 @@ import {
 export interface ChartDataPoint {
   km: number;
   elapsed: number;
+  pace: number;
   tooltip: string;
 }
 
 interface PaceSplitChartProps {
   data: ChartDataPoint[];
   lineColor?: string;
+  yMode?: "duration" | "pace";
 }
 
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 
-const formatYAxis = (seconds: number) => {
+const formatDurationAxis = (seconds: number) => {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   return `${pad(h)}:${pad(m)}`;
+};
+
+const formatPaceAxis = (seconds: number) => {
+  const m = Math.floor(seconds / 60);
+  const s = Math.round(seconds % 60);
+  return `${pad(m)}:${pad(s)}`;
 };
 
 const formatXAxis = (km: number) => {
@@ -34,12 +42,18 @@ const formatXAxis = (km: number) => {
 const CustomTooltip = ({
   active,
   payload,
+  yMode,
 }: {
   active?: boolean;
   payload?: { payload: ChartDataPoint }[];
+  yMode: "duration" | "pace";
 }) => {
   if (active && payload && payload.length) {
     const point = payload[0].payload;
+    const valueLabel =
+      yMode === "pace"
+        ? `${pad(Math.floor(point.pace / 60))}:${pad(Math.round(point.pace % 60))}/km`
+        : point.tooltip;
     return (
       <div
         style={{
@@ -53,7 +67,7 @@ const CustomTooltip = ({
           {formatXAxis(point.km)}
         </p>
         <p style={{ fontFamily: "monospace", fontSize: 10, color: "#f8fafc", margin: 0 }}>
-          {point.tooltip}
+          {valueLabel}
         </p>
       </div>
     );
@@ -61,7 +75,14 @@ const CustomTooltip = ({
   return null;
 };
 
-export default function PaceSplitChartInner({ data, lineColor = "#fbbf24" }: PaceSplitChartProps) {
+export default function PaceSplitChartInner({
+  data,
+  lineColor = "#fbbf24",
+  yMode = "duration",
+}: PaceSplitChartProps) {
+  const isPace = yMode === "pace";
+  const yFormatter = isPace ? formatPaceAxis : formatDurationAxis;
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data} margin={{ top: 8, right: 10, left: -12, bottom: 4 }}>
@@ -76,16 +97,21 @@ export default function PaceSplitChartInner({ data, lineColor = "#fbbf24" }: Pac
           interval="preserveStartEnd"
         />
         <YAxis
-          tickFormatter={formatYAxis}
+          dataKey={isPace ? "pace" : "elapsed"}
+          tickFormatter={yFormatter}
           tick={{ fill: "#64748b", fontFamily: "monospace", fontSize: 9 }}
           axisLine={{ stroke: "#1e293b" }}
           tickLine={false}
           width={42}
+          domain={isPace ? ["dataMin - 10", "dataMax + 10"] : ["dataMin", "dataMax"]}
         />
-        <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#334155", strokeWidth: 1 }} />
+        <Tooltip
+          content={<CustomTooltip yMode={yMode} />}
+          cursor={{ stroke: "#334155", strokeWidth: 1 }}
+        />
         <Line
           type="monotone"
-          dataKey="elapsed"
+          dataKey={isPace ? "pace" : "elapsed"}
           stroke={lineColor}
           strokeWidth={2}
           dot={false}

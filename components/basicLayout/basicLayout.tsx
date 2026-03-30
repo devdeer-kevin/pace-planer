@@ -54,6 +54,8 @@ export default function BasicLayoutComponent() {
   const [displayMode, setDisplayMode] = useState<"NUM" | "CHART">("NUM");
   // State to track split strategy for the chart
   const [splitStrategy, setSplitStrategy] = useState<"LINEAR" | "NEGATIVE" | "POSITIVE">("LINEAR");
+  // State to toggle chart Y-axis between cumulative duration and per-km pace
+  const [yMode, setYMode] = useState<"duration" | "pace">("duration");
   // The current Date object
   const now = new Date();
 
@@ -313,7 +315,8 @@ export default function BasicLayoutComponent() {
     const data: ChartDataPoint[] = [];
     let cumulative = 0;
     for (let i = 0; i < N; i++) {
-      cumulative += rawPaces[i] * correctionFactor * segLengths[i];
+      const pace = rawPaces[i] * correctionFactor;
+      cumulative += pace * segLengths[i];
       const elapsed = Math.round(cumulative);
       const h = Math.floor(elapsed / 3600);
       const m = Math.floor((elapsed % 3600) / 60);
@@ -322,6 +325,7 @@ export default function BasicLayoutComponent() {
       data.push({
         km,
         elapsed,
+        pace,
         tooltip: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
       });
     }
@@ -408,6 +412,7 @@ export default function BasicLayoutComponent() {
                           ? "#4ade80"
                           : "#f87171"
                     }
+                    yMode={yMode}
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
@@ -417,8 +422,23 @@ export default function BasicLayoutComponent() {
                   </div>
                 )}
               </div>
-              {/* Split strategy selector — only visible in CHART mode */}
-              <div className="flex gap-1.5 justify-end pt-0.5">
+              {/* Bottom bar: Y-axis mode toggle (left) + split strategy selector (right) */}
+              <div className="flex items-center justify-between pt-0.5">
+              <div className="flex gap-2 font-mono text-[9px]">
+                <button
+                  onClick={() => setYMode("duration")}
+                  className={`cursor-pointer ${yMode === "duration" ? "text-slate-400" : "text-slate-700"}`}
+                >
+                  TIME
+                </button>
+                <button
+                  onClick={() => setYMode("pace")}
+                  className={`cursor-pointer ${yMode === "pace" ? "text-slate-400" : "text-slate-700"}`}
+                >
+                  PACE
+                </button>
+              </div>
+              <div className="flex gap-1.5">
                 <button
                   onClick={() => setSplitStrategy("LINEAR")}
                   className="cursor-pointer"
@@ -452,6 +472,7 @@ export default function BasicLayoutComponent() {
                     </svg>
                   </div>
                 </button>
+              </div>
               </div>
             </div>
           )}

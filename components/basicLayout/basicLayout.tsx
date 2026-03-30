@@ -54,6 +54,8 @@ export default function BasicLayoutComponent() {
   const [displayMode, setDisplayMode] = useState<"NUM" | "CHART">("NUM");
   // State to track split strategy for the chart
   const [splitStrategy, setSplitStrategy] = useState<"LINEAR" | "NEGATIVE" | "POSITIVE">("LINEAR");
+  // State to control the easing curve applied to the split gradient
+  const [curveType, setCurveType] = useState<"lin" | "exp" | "sin">("lin");
   // State to toggle chart Y-axis between cumulative duration and per-km pace
   const [yMode, setYMode] = useState<"duration" | "pace">("duration");
   // The current Date object
@@ -298,8 +300,14 @@ export default function BasicLayoutComponent() {
     const segLengths = Array.from({ length: N }, (_, i) =>
       Math.min(1, distanceKm - i),
     );
+    const easedProgress = (p: number) => {
+      if (curveType === "exp") return p * p;
+      if (curveType === "sin") return 1 - Math.cos((p * Math.PI) / 2);
+      return p;
+    };
+
     const rawPaces = Array.from({ length: N }, (_, i) => {
-      const progress = N > 1 ? i / (N - 1) : 0;
+      const progress = easedProgress(N > 1 ? i / (N - 1) : 0);
       if (splitStrategy === "NEGATIVE") {
         return paceSeconds * (1 + FACTOR - 2 * FACTOR * progress);
       } else if (splitStrategy === "POSITIVE") {
@@ -339,6 +347,7 @@ export default function BasicLayoutComponent() {
     selectedDistance,
     customDistance,
     splitStrategy,
+    curveType,
   ]);
 
   // Method to reset the input fields
@@ -400,6 +409,22 @@ export default function BasicLayoutComponent() {
             </div>
           ) : (
             <div className="h-44 p-2 flex flex-col">
+              {/* Curve type selector — top left, only meaningful for NEGATIVE/POSITIVE */}
+              <div
+                className="flex gap-2 font-mono text-[9px] pb-0.5"
+                style={{ opacity: splitStrategy === "LINEAR" ? 0.3 : 1 }}
+              >
+                {(["lin", "exp", "sin"] as const).map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setCurveType(c)}
+                    disabled={splitStrategy === "LINEAR"}
+                    className={`cursor-pointer uppercase ${curveType === c ? "text-slate-400" : "text-slate-700"}`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
               {/* Chart or empty state */}
               <div className="flex-1 min-h-0">
                 {chartData.length > 0 ? (
@@ -457,7 +482,7 @@ export default function BasicLayoutComponent() {
                 >
                   <div className="w-3.5 h-3.5 rounded-full border border-green-400 flex items-center justify-center">
                     <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
-                      <path d="M2,14 Q4,2 14,2" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M2,2 Q14,2 14,14" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" />
                     </svg>
                   </div>
                 </button>

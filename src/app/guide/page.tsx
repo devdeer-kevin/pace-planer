@@ -27,7 +27,7 @@ function GuideSection({
   id: string;
 }) {
   return (
-    <div id={id} className="flex flex-col gap-4 scroll-mt-16">
+    <div id={id} className="flex flex-col gap-4">
       <div>
         <h2 className="text-slate-400 text-lg">{content.headline}</h2>
         <p className="text-slate-600 text-sm">{content.subheadline}</p>
@@ -58,7 +58,7 @@ type PaceTableContent = {
 
 function PaceTable({ content }: { content: PaceTableContent }) {
   return (
-    <div id="pace-tabelle" className="flex flex-col gap-4 scroll-mt-16">
+    <div id="pace-tabelle" className="flex flex-col gap-4">
       <div>
         <h2 className="text-slate-400 text-lg">{content.headline}</h2>
         <p className="text-slate-600 text-sm">{content.subheadline}</p>
@@ -117,19 +117,28 @@ const sections = [
 
 export default function Guide() {
   return (
-    <>
+    <div className="max-w-3xl ">
       <h1 className="text-slate-500 text-left text-xl">
         Lauftempo verstehen – Guide
       </h1>
 
       {sections.map(({ content, id }) => (
-        <div key={id} className="flex flex-col gap-6">
+        <div key={id} className="flex flex-col gap-6 mt-4">
           <GuideSection content={content} id={id} />
           <Divider />
         </div>
       ))}
 
       <PaceTable content={paceTableContent} />
-    </>
+
+      <div className="mt-8 flex justify-center">
+        <a
+          href="/"
+          className="flex flex-col h-full justify-center items-center bg-yellow-400 rounded-lg cursor-pointer p-2"
+        >
+          Zur Pace-Rechner App
+        </a>
+      </div>
+    </div>
   );
 }

@@ -33,53 +33,10 @@ export const metadata: Metadata = {
   },
 };
 
-const anchors = [
-  { label: "Was ist Pace?", href: "#was-ist-pace" },
-  { label: "Pace berechnen", href: "#pace-berechnen" },
-  { label: "Zielzeit", href: "#zielzeit-berechnen" },
-  { label: "Distanz", href: "#distanz-berechnen" },
-  { label: "Splits", href: "#splits" },
-  { label: "Negative Split", href: "#negative-split" },
-  { label: "Strategien", href: "#split-strategien" },
-  { label: "Tabelle", href: "#pace-tabelle" },
-];
-
 export default function GuideLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col max-w-2xl gap-6">
-      {/* Back navigation */}
-      <div className="flex flex-row gap-6 text-slate-400 leading-6 text-md">
-        <Link className="underline text-yellow-400" href="/">
-          Zur App
-        </Link>
-        <div>|</div>
-        <Link className="underline text-yellow-400" href="/release-notes">
-          Release Notes
-        </Link>
-        <div>|</div>
-        <Link className="underline text-yellow-400" href="/info">
-          Über die App
-        </Link>
-      </div>
-
-      {/* Sticky anchor nav */}
-      <nav className="sticky top-4 z-10 -mx-1">
-        <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
-          {anchors.map((anchor) => (
-            <Link
-              key={anchor.href}
-              href={anchor.href}
-              className="text-xs text-slate-600 hover:text-yellow-400 transition-colors whitespace-nowrap"
-            >
-              {anchor.label}
-            </Link>
-          ))}
-        </div>
-        <div className="mt-3 border-t border-slate-800" />
-      </nav>
-
-      {/* Page content */}
+    <main className="flex flex-col items-center overflow-y-auto h-full w-full py-24 px-6">
       {children}
-    </div>
+    </main>
   );
 }

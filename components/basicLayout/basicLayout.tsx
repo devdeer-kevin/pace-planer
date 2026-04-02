@@ -570,7 +570,7 @@ export default function BasicLayoutComponent() {
                   KM-SPLITS · {splitStrategy} · {selectedDistance}
                 </p>
                 {/* Scrollable table */}
-                <div style={{ maxHeight: "220px", overflowY: "auto" }}>
+                <div style={{ maxHeight: "220px", overflowY: "auto", paddingRight: "12px" }}>
                   {chartData.length > 0 ? (
                     <table
                       className="w-full font-mono"

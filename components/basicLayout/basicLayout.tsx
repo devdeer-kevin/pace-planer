@@ -561,80 +561,87 @@ export default function BasicLayoutComponent() {
               borderRadius: "0 0 8px 8px",
             }}
           >
-              <div className="px-3 pb-3 pt-1.5">
-                {/* Printed header label */}
+            <div className="pb-3 pt-3">
+              {/* Scrollable table */}
+              <div
+                className="bg-slate-950/50 px-2 rounded-lg"
+                style={{
+                  maxHeight: "220px",
+                  overflowY: "auto",
+                  paddingRight: "12px",
+                }}
+              >
+                {chartData.length > 0 ? (
+                  <table
+                    className="w-full font-mono"
+                    style={{ fontSize: "10px" }}
+                  >
+                    <thead>
+                      <tr className="text-slate-700 uppercase">
+                        <th className="text-left pb-1 font-normal">KM</th>
+                        <th className="text-right pb-1 font-normal">PACE</th>
+                        <th className="text-right pb-1 font-normal">SPLIT</th>
+                        <th className="text-right pb-1 font-normal">GESAMT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {chartData.map((point, i) => {
+                        const isLast = i === chartData.length - 1;
+                        const rawSplit =
+                          i === 0
+                            ? point.elapsed
+                            : point.elapsed - chartData[i - 1].elapsed;
+                        const splitTotalSec = Math.round(rawSplit);
+                        const splitMin = Math.floor(splitTotalSec / 60);
+                        const splitSecRem = splitTotalSec % 60;
+                        const paceTotalSec = Math.round(point.pace);
+                        const paceMin = Math.floor(paceTotalSec / 60);
+                        const paceSec = paceTotalSec % 60;
+                        const kmLabel = Number.isInteger(point.km)
+                          ? `${point.km}km`
+                          : `${point.km.toFixed(1)}km`;
+                        return (
+                          <tr
+                            key={i}
+                            className={
+                              isLast ? "text-yellow-400" : "text-slate-500"
+                            }
+                          >
+                            <td className="py-0.5 text-left">{kmLabel}</td>
+                            <td className="py-0.5 text-right">
+                              {paceMin}:{String(paceSec).padStart(2, "0")}
+                            </td>
+                            <td className="py-0.5 text-right">
+                              {splitMin}:{String(splitSecRem).padStart(2, "0")}
+                            </td>
+                            <td className="py-0.5 text-right">
+                              {point.tooltip}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p
+                    className="font-mono text-center py-3 text-slate-700"
+                    style={{ fontSize: "10px" }}
+                  >
+                    keine Eingabe
+                  </p>
+                )}
+              </div>
+              {/* Printed header label */}
+              <div className="flex justify-end items-end w-full">
                 <p
-                  className="font-mono uppercase tracking-widest pb-1 text-slate-700"
+                  className="font-mono uppercase tracking-widest pt-3 text-slate-700 px-2 "
                   style={{ fontSize: "8px" }}
                 >
-                  KM-SPLITS · {splitStrategy} · {selectedDistance}
+                  {selectedDistance} · {splitStrategy} SPLITS · {curveType}{" "}
+                  CURVE
                 </p>
-                {/* Scrollable table */}
-                <div style={{ maxHeight: "220px", overflowY: "auto", paddingRight: "12px" }}>
-                  {chartData.length > 0 ? (
-                    <table
-                      className="w-full font-mono"
-                      style={{ fontSize: "10px" }}
-                    >
-                      <thead>
-                        <tr className="text-slate-700 uppercase">
-                          <th className="text-left pb-1 font-normal">KM</th>
-                          <th className="text-right pb-1 font-normal">PACE</th>
-                          <th className="text-right pb-1 font-normal">SPLIT</th>
-                          <th className="text-right pb-1 font-normal">
-                            GESAMT
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {chartData.map((point, i) => {
-                          const isLast = i === chartData.length - 1;
-                          const rawSplit =
-                            i === 0
-                              ? point.elapsed
-                              : point.elapsed - chartData[i - 1].elapsed;
-                          const splitTotalSec = Math.round(rawSplit);
-                          const splitMin = Math.floor(splitTotalSec / 60);
-                          const splitSecRem = splitTotalSec % 60;
-                          const paceTotalSec = Math.round(point.pace);
-                          const paceMin = Math.floor(paceTotalSec / 60);
-                          const paceSec = paceTotalSec % 60;
-                          const kmLabel = Number.isInteger(point.km)
-                            ? `${point.km}km`
-                            : `${point.km.toFixed(1)}km`;
-                          return (
-                            <tr
-                              key={i}
-                              className={
-                                isLast ? "text-yellow-400" : "text-slate-500"
-                              }
-                            >
-                              <td className="py-0.5 text-left">{kmLabel}</td>
-                              <td className="py-0.5 text-right">
-                                {paceMin}:{String(paceSec).padStart(2, "0")}
-                              </td>
-                              <td className="py-0.5 text-right">
-                                {splitMin}:
-                                {String(splitSecRem).padStart(2, "0")}
-                              </td>
-                              <td className="py-0.5 text-right">
-                                {point.tooltip}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <p
-                      className="font-mono text-center py-3 text-slate-700"
-                      style={{ fontSize: "10px" }}
-                    >
-                      keine Eingabe
-                    </p>
-                  )}
-                </div>
               </div>
+            </div>
           </div>
         </div>
         {/* Endpoint selection buttons */}

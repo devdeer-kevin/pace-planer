@@ -6,13 +6,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import type { ChartDataPoint } from "../../lib/splitData";
 
-export interface ChartDataPoint {
-  km: number;
-  elapsed: number;
-  pace: number;
-  tooltip: string;
-}
+export type { ChartDataPoint };
 
 interface PaceSplitChartProps {
   data: ChartDataPoint[];

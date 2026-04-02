@@ -12,7 +12,15 @@ import DistanceButton from "../distanceButton";
 import { pad } from "../../utils/pad";
 import { availableDistances } from "../../utils/availableDistances";
 import { Clock, CornerUpLeft, Equal, Loader } from "lucide-react";
-import type { ChartDataPoint } from "../paceSplitChart/paceSplitChartInner";
+import {
+  calculateSplitData,
+  formatTableRows,
+  getDistanceKm,
+  parsePaceSeconds,
+  type ChartDataPoint,
+  type SplitStrategy,
+  type CurveType,
+} from "../../lib/splitData";
 
 const PaceSplitChart = dynamic(
   () => import("../paceSplitChart/paceSplitChartInner"),
@@ -55,11 +63,9 @@ export default function BasicLayoutComponent() {
   // State to toggle the split table panel open/closed
   const [tableOpen, setTableOpen] = useState(false);
   // State to track split strategy for the chart
-  const [splitStrategy, setSplitStrategy] = useState<
-    "LINEAR" | "NEGATIVE" | "POSITIVE"
-  >("LINEAR");
+  const [splitStrategy, setSplitStrategy] = useState<SplitStrategy>("LINEAR");
   // State to control the easing curve applied to the split gradient
-  const [curveType, setCurveType] = useState<"lin" | "exp" | "sin">("lin");
+  const [curveType, setCurveType] = useState<CurveType>("lin");
   // State to toggle chart Y-axis between cumulative duration and per-km pace
   const [yMode, setYMode] = useState<"duration" | "pace">("duration");
   // The current Date object
@@ -268,84 +274,16 @@ export default function BasicLayoutComponent() {
     let paceSeconds = 0;
 
     if (endpoint === "Time") {
-      // Pace is entered directly as MM:SS
-      const mins = parseInt(time.minutes) || 0;
-      const secs = parseInt(time.seconds) || 0;
-      paceSeconds = mins * 60 + secs;
+      paceSeconds =
+        (parseInt(time.minutes) || 0) * 60 + (parseInt(time.seconds) || 0);
     } else {
-      // Pace is the API result (hh:mm:ss per km)
       if (!displayedResult) return [];
-      const parts = displayedResult.split(":");
-      if (parts.length === 3) {
-        paceSeconds =
-          parseInt(parts[0]) * 3600 +
-          parseInt(parts[1]) * 60 +
-          parseInt(parts[2]);
-      } else if (parts.length === 2) {
-        paceSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
-      }
+      paceSeconds = parsePaceSeconds(displayedResult);
     }
 
-    if (paceSeconds === 0) return [];
+    const distanceKm = getDistanceKm(selectedDistance, customDistance);
 
-    let distanceKm = 0;
-    if (selectedDistance === "5k") distanceKm = 5;
-    else if (selectedDistance === "10k") distanceKm = 10;
-    else if (selectedDistance === "21k") distanceKm = 21.0975;
-    else if (selectedDistance === "42k") distanceKm = 42.195;
-    else distanceKm = parseFloat(customDistance) || 0;
-
-    if (distanceKm <= 0) return [];
-
-    const FACTOR = 0.05;
-    const N = Math.ceil(distanceKm);
-
-    // Compute raw pace per segment (segment i covers km i to min(i+1, distanceKm))
-    const segLengths = Array.from({ length: N }, (_, i) =>
-      Math.min(1, distanceKm - i),
-    );
-    const easedProgress = (p: number) => {
-      if (curveType === "exp") return p * p;
-      if (curveType === "sin") return 1 - Math.cos((p * Math.PI) / 2);
-      return p;
-    };
-
-    const rawPaces = Array.from({ length: N }, (_, i) => {
-      const progress = easedProgress(N > 1 ? i / (N - 1) : 0);
-      if (splitStrategy === "NEGATIVE") {
-        return paceSeconds * (1 + FACTOR - 2 * FACTOR * progress);
-      } else if (splitStrategy === "POSITIVE") {
-        return paceSeconds * (1 - FACTOR + 2 * FACTOR * progress);
-      }
-      return paceSeconds;
-    });
-
-    // Normalize so total time stays exactly avgPace × distanceKm
-    const totalRaw = rawPaces.reduce(
-      (sum, rp, i) => sum + rp * segLengths[i],
-      0,
-    );
-    const correctionFactor = (paceSeconds * distanceKm) / totalRaw;
-
-    const data: ChartDataPoint[] = [];
-    let cumulative = 0;
-    for (let i = 0; i < N; i++) {
-      const pace = rawPaces[i] * correctionFactor;
-      cumulative += pace * segLengths[i];
-      const elapsed = Math.round(cumulative);
-      const h = Math.floor(elapsed / 3600);
-      const m = Math.floor((elapsed % 3600) / 60);
-      const s = elapsed % 60;
-      const km = i < N - 1 ? i + 1 : distanceKm;
-      data.push({
-        km,
-        elapsed,
-        pace,
-        tooltip: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
-      });
-    }
-
-    return data;
+    return calculateSplitData(paceSeconds, distanceKm, splitStrategy, curveType);
   }, [
     endpoint,
     time.minutes,
@@ -585,41 +523,19 @@ export default function BasicLayoutComponent() {
                       </tr>
                     </thead>
                     <tbody>
-                      {chartData.map((point, i) => {
-                        const isLast = i === chartData.length - 1;
-                        const rawSplit =
-                          i === 0
-                            ? point.elapsed
-                            : point.elapsed - chartData[i - 1].elapsed;
-                        const splitTotalSec = Math.round(rawSplit);
-                        const splitMin = Math.floor(splitTotalSec / 60);
-                        const splitSecRem = splitTotalSec % 60;
-                        const paceTotalSec = Math.round(point.pace);
-                        const paceMin = Math.floor(paceTotalSec / 60);
-                        const paceSec = paceTotalSec % 60;
-                        const kmLabel = Number.isInteger(point.km)
-                          ? `${point.km}km`
-                          : `${point.km.toFixed(1)}km`;
-                        return (
-                          <tr
-                            key={i}
-                            className={
-                              isLast ? "text-yellow-400" : "text-slate-500"
-                            }
-                          >
-                            <td className="py-0.5 text-left">{kmLabel}</td>
-                            <td className="py-0.5 text-right">
-                              {paceMin}:{String(paceSec).padStart(2, "0")}
-                            </td>
-                            <td className="py-0.5 text-right">
-                              {splitMin}:{String(splitSecRem).padStart(2, "0")}
-                            </td>
-                            <td className="py-0.5 text-right">
-                              {point.tooltip}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {formatTableRows(chartData).map((row, i) => (
+                        <tr
+                          key={i}
+                          className={
+                            row.isLast ? "text-yellow-400" : "text-slate-500"
+                          }
+                        >
+                          <td className="py-0.5 text-left">{row.km}</td>
+                          <td className="py-0.5 text-right">{row.pace}</td>
+                          <td className="py-0.5 text-right">{row.split}</td>
+                          <td className="py-0.5 text-right">{row.total}</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 ) : (

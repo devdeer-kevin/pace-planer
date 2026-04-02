@@ -52,8 +52,12 @@ export default function BasicLayoutComponent() {
   >("00:00");
   // State to toggle between number and chart display
   const [displayMode, setDisplayMode] = useState<"NUM" | "CHART">("NUM");
+  // State to toggle the split table panel open/closed
+  const [tableOpen, setTableOpen] = useState(false);
   // State to track split strategy for the chart
-  const [splitStrategy, setSplitStrategy] = useState<"LINEAR" | "NEGATIVE" | "POSITIVE">("LINEAR");
+  const [splitStrategy, setSplitStrategy] = useState<
+    "LINEAR" | "NEGATIVE" | "POSITIVE"
+  >("LINEAR");
   // State to control the easing curve applied to the split gradient
   const [curveType, setCurveType] = useState<"lin" | "exp" | "sin">("lin");
   // State to toggle chart Y-axis between cumulative duration and per-km pace
@@ -317,7 +321,10 @@ export default function BasicLayoutComponent() {
     });
 
     // Normalize so total time stays exactly avgPace × distanceKm
-    const totalRaw = rawPaces.reduce((sum, rp, i) => sum + rp * segLengths[i], 0);
+    const totalRaw = rawPaces.reduce(
+      (sum, rp, i) => sum + rp * segLengths[i],
+      0,
+    );
     const correctionFactor = (paceSeconds * distanceKm) / totalRaw;
 
     const data: ChartDataPoint[] = [];
@@ -383,6 +390,12 @@ export default function BasicLayoutComponent() {
               >
                 CHART
               </button>
+              <button
+                onClick={() => setTableOpen((o) => !o)}
+                className={`cursor-pointer ${tableOpen ? "text-yellow-400" : "text-slate-600"}`}
+              >
+                TABLE
+              </button>
             </div>
           </div>
           {displayMode === "NUM" ? (
@@ -433,76 +446,197 @@ export default function BasicLayoutComponent() {
               </div>
               {/* Bottom bar: Y-axis mode toggle (left) + split strategy selector (right) */}
               <div className="flex items-center justify-between pt-0.5">
-              <div className="flex gap-2 font-mono text-[9px]">
-                <button
-                  onClick={() => setYMode("duration")}
-                  className={`cursor-pointer ${yMode === "duration" ? "text-slate-400" : "text-slate-700"}`}
-                >
-                  TIME
-                </button>
-                <button
-                  onClick={() => setYMode("pace")}
-                  className={`cursor-pointer ${yMode === "pace" ? "text-slate-400" : "text-slate-700"}`}
-                >
-                  PACE
-                </button>
-                {yMode === "pace" && (
-                  <>
-                    <span className="text-slate-800">|</span>
-                    {(["lin", "exp", "sin"] as const).map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => setCurveType(c)}
-                        disabled={splitStrategy === "LINEAR"}
-                        className={`uppercase ${splitStrategy === "LINEAR" ? "text-slate-800" : curveType === c ? "text-slate-400 cursor-pointer" : "text-slate-700 cursor-pointer"}`}
-                      >
-                        {c}
-                      </button>
-                    ))}
-                  </>
-                )}
-              </div>
-              <div className="flex gap-1.5">
-                <button
-                  onClick={() => setSplitStrategy("LINEAR")}
-                  className="cursor-pointer"
-                  style={{ opacity: splitStrategy === "LINEAR" ? 1 : 0.35 }}
-                  title="Linear — gleichmäßiges Tempo"
-                >
-                  <div className="w-3.5 h-3.5 rounded-full border border-yellow-400 flex items-center justify-center">
-                    <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
-                      <line x1="2" y1="14" x2="14" y2="2" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </button>
-                <button
-                  onClick={() => setSplitStrategy("NEGATIVE")}
-                  className="cursor-pointer"
-                  style={{ opacity: splitStrategy === "NEGATIVE" ? 1 : 0.35 }}
-                  title="Negative Split — zweite Hälfte schneller"
-                >
-                  <div className="w-3.5 h-3.5 rounded-full border border-green-400 flex items-center justify-center">
-                    <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
-                      <path d="M2,2 Q14,2 14,14" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </button>
-                <button
-                  onClick={() => setSplitStrategy("POSITIVE")}
-                  className="cursor-pointer"
-                  style={{ opacity: splitStrategy === "POSITIVE" ? 1 : 0.35 }}
-                  title="Positive Split — zweite Hälfte langsamer"
-                >
-                  <div className="w-3.5 h-3.5 rounded-full border border-red-400 flex items-center justify-center">
-                    <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
-                      <path d="M2,14 Q14,14 14,2" stroke="#f87171" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </button>
-              </div>
+                <div className="flex gap-2 font-mono text-[9px]">
+                  <button
+                    onClick={() => setYMode("duration")}
+                    className={`cursor-pointer ${yMode === "duration" ? "text-slate-400" : "text-slate-700"}`}
+                  >
+                    TIME
+                  </button>
+                  <button
+                    onClick={() => setYMode("pace")}
+                    className={`cursor-pointer ${yMode === "pace" ? "text-slate-400" : "text-slate-700"}`}
+                  >
+                    PACE
+                  </button>
+                  {yMode === "pace" && (
+                    <>
+                      <span className="text-slate-800">|</span>
+                      {(["lin", "exp", "sin"] as const).map((c) => (
+                        <button
+                          key={c}
+                          onClick={() => setCurveType(c)}
+                          disabled={splitStrategy === "LINEAR"}
+                          className={`uppercase ${splitStrategy === "LINEAR" ? "text-slate-800" : curveType === c ? "text-slate-400 cursor-pointer" : "text-slate-700 cursor-pointer"}`}
+                        >
+                          {c}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => setSplitStrategy("LINEAR")}
+                    className="cursor-pointer"
+                    style={{ opacity: splitStrategy === "LINEAR" ? 1 : 0.35 }}
+                    title="Linear — gleichmäßiges Tempo"
+                  >
+                    <div className="w-3.5 h-3.5 rounded-full border border-yellow-400 flex items-center justify-center">
+                      <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
+                        <line
+                          x1="2"
+                          y1="14"
+                          x2="14"
+                          y2="2"
+                          stroke="#fbbf24"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSplitStrategy("NEGATIVE")}
+                    className="cursor-pointer"
+                    style={{ opacity: splitStrategy === "NEGATIVE" ? 1 : 0.35 }}
+                    title="Negative Split — zweite Hälfte schneller"
+                  >
+                    <div className="w-3.5 h-3.5 rounded-full border border-green-400 flex items-center justify-center">
+                      <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
+                        <path
+                          d="M2,2 Q14,2 14,14"
+                          stroke="#4ade80"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSplitStrategy("POSITIVE")}
+                    className="cursor-pointer"
+                    style={{ opacity: splitStrategy === "POSITIVE" ? 1 : 0.35 }}
+                    title="Positive Split — zweite Hälfte langsamer"
+                  >
+                    <div className="w-3.5 h-3.5 rounded-full border border-red-400 flex items-center justify-center">
+                      <svg viewBox="0 0 16 16" width="6" height="6" fill="none">
+                        <path
+                          d="M2,14 Q14,14 14,2"
+                          stroke="#f87171"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
           )}
+        </div>
+        {/* TABLE panel — folds open below the display like the inside of a calculator cover */}
+        <div className="w-11/12">
+          {/* Hinge strip — always visible */}
+          <div
+            className="mb-2"
+            style={{
+              height: "5px",
+              background:
+                "repeating-linear-gradient(90deg, transparent, transparent 4px, #1a2a3a 4px, #1a2a3a 8px)",
+            }}
+          />
+          {/* Sliding content */}
+          <div
+            style={{
+              maxHeight: tableOpen ? "300px" : "0px",
+              opacity: tableOpen ? 1 : 0,
+              overflow: "hidden",
+              transition: "max-height 0.35s ease, opacity 0.25s ease",
+            }}
+          >
+            <div
+              style={{
+                background: "#0f172a",
+                borderRadius: "0 0 8px 8px",
+              }}
+            >
+              <div className="px-3 pb-3 pt-1.5">
+                {/* Printed header label */}
+                <p
+                  className="font-mono uppercase tracking-widest pb-1 text-slate-700"
+                  style={{ fontSize: "8px" }}
+                >
+                  KM-SPLITS · {splitStrategy} · {selectedDistance}
+                </p>
+                {/* Scrollable table */}
+                <div style={{ maxHeight: "220px", overflowY: "auto" }}>
+                  {chartData.length > 0 ? (
+                    <table
+                      className="w-full font-mono"
+                      style={{ fontSize: "10px" }}
+                    >
+                      <thead>
+                        <tr className="text-slate-700 uppercase">
+                          <th className="text-left pb-1 font-normal">KM</th>
+                          <th className="text-right pb-1 font-normal">PACE</th>
+                          <th className="text-right pb-1 font-normal">SPLIT</th>
+                          <th className="text-right pb-1 font-normal">
+                            GESAMT
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {chartData.map((point, i) => {
+                          const isLast = i === chartData.length - 1;
+                          const rawSplit =
+                            i === 0
+                              ? point.elapsed
+                              : point.elapsed - chartData[i - 1].elapsed;
+                          const splitTotalSec = Math.round(rawSplit);
+                          const splitMin = Math.floor(splitTotalSec / 60);
+                          const splitSecRem = splitTotalSec % 60;
+                          const paceTotalSec = Math.round(point.pace);
+                          const paceMin = Math.floor(paceTotalSec / 60);
+                          const paceSec = paceTotalSec % 60;
+                          const kmLabel = Number.isInteger(point.km)
+                            ? `${point.km}km`
+                            : `${point.km.toFixed(1)}km`;
+                          return (
+                            <tr
+                              key={i}
+                              className={
+                                isLast ? "text-yellow-400" : "text-slate-500"
+                              }
+                            >
+                              <td className="py-0.5 text-left">{kmLabel}</td>
+                              <td className="py-0.5 text-right">
+                                {paceMin}:{String(paceSec).padStart(2, "0")}
+                              </td>
+                              <td className="py-0.5 text-right">
+                                {splitMin}:
+                                {String(splitSecRem).padStart(2, "0")}
+                              </td>
+                              <td className="py-0.5 text-right">
+                                {point.tooltip}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p
+                      className="font-mono text-center py-3 text-slate-700"
+                      style={{ fontSize: "10px" }}
+                    >
+                      keine Eingabe
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         {/* Endpoint selection buttons */}
         <div className="flex w-11/12 justify-end -mt-2 pb-2">
@@ -541,7 +675,11 @@ export default function BasicLayoutComponent() {
                       onDistanceSelected={setSelectedDistance}
                       active={selectedDistance === String(distance)}
                       displayedDistanceHandler={displayedDistanceHandler}
-                      disabled={String(distance) === "?k" && raceResult.length > 0 && !customDistance}
+                      disabled={
+                        String(distance) === "?k" &&
+                        raceResult.length > 0 &&
+                        !customDistance
+                      }
                     />
                   </div>
                 ))}

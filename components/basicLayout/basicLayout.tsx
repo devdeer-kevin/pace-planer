@@ -637,8 +637,7 @@ export default function BasicLayoutComponent() {
                   className="font-mono uppercase tracking-widest pt-3 text-slate-700 px-2 "
                   style={{ fontSize: "8px" }}
                 >
-                  {selectedDistance} · {splitStrategy} SPLITS · {curveType}{" "}
-                  CURVE
+                  {selectedDistance} · {splitStrategy} SPLIT · {curveType} CURVE
                 </p>
               </div>
             </div>

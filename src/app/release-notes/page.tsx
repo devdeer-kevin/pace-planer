@@ -16,6 +16,17 @@ export default async function Info() {
             Mehr über die App
           </Link>
         </div>
+        <label className="text-slate-600">02.04.2025 - Pace Planer 4.0.0</label>
+        <p>
+          Feature: Pace Planer bekommt zwei neue Modi. CHART und TABLE. Mit
+          CHART wechselst du direkt im Display in eine Linienansicht, die deine
+          Splits kilometerweise visualisiert. Wähle dabei zwischen drei
+          Rennstrategien: Linear, Negative Split und Positive Split und zwischen
+          drei Kurventypen (LIN, EXP, SIN), wie auf einem wissenschaftlichen
+          Taschenrechner. Mit TABLE klappt unterhalb des Displays eine Tabelle
+          auf, die dir Pace, Split-Zeit und Gesamtzeit für jeden Kilometer
+          deines Laufs anzeigt.
+        </p>
         <label className="text-slate-600">06.09.2024 - Pace Planer 3.1.0</label>
         <p>
           Feature: Mit einem einfachen Klick kannst du jetzt die aktuelle

@@ -16,7 +16,7 @@ export default async function Info() {
             Mehr über die App
           </Link>
         </div>
-        <label className="text-slate-600">02.04.2025 - Pace Planer 4.0.0</label>
+        <label className="text-slate-600">02.04.2026 - Pace Planer 4.0.0</label>
         <p>
           Feature: Pace Planer bekommt zwei neue Modi. CHART und TABLE. Mit
           CHART wechselst du direkt im Display in eine Linienansicht, die deine

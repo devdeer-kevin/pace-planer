@@ -1,9 +1,27 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Entdecke Pace Planer",
+  title: "Über Pace Planer – Kostenloser Pace Rechner ohne Werbung",
   description:
-    "Deine kostenlose, werbefreie Lauf-App für einfache Zielzeit-Berechnungen ohne Cookies oder Analytics. Perfekt für alle Distanzen – plane deinen Lauf mit Klarheit und Privatsphäre.",
+    "Pace Planer ist ein kostenloser, werbefreier Pace Rechner – ohne Cookies, ohne Analytics, ohne App-Download. Direkt im Browser, für jede Distanz.",
+  keywords: [
+    "Pace Rechner kostenlos",
+    "Pace Rechner ohne Werbung",
+    "Lauf App ohne Tracking",
+    "Pace Planer",
+  ],
+  alternates: {
+    canonical: "https://pace-planer.de/info",
+  },
+  openGraph: {
+    title: "Über Pace Planer – Kostenloser Pace Rechner ohne Werbung",
+    description:
+      "Kostenlos, werbefrei, ohne Cookies und ohne App-Download. Pace Planer läuft direkt im Browser – für jede Laufdistanz.",
+    url: "https://pace-planer.de/info",
+    siteName: "Pace Planer",
+    locale: "de_DE",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

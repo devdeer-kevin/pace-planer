@@ -9,9 +9,31 @@ import { Info } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "Pace Rechner – Lauftempo & Zielzeit werbefrei berechnen | Pace Planer",
+    "Pace Rechner – Lauftempo, Splits & Zielzeit werbefrei berechnen | Pace Planer",
   description:
-    "Pace, Zielzeit oder Distanz berechnen – kostenlos, werbefrei und ohne Tracking. Für 5K, 10K, Halbmarathon, Marathon und jede andere Distanz.",
+    "Pace, Splits, Zielzeit oder Distanz berechnen – kostenlos, werbefrei und ohne Tracking. Für 5K, 10K, Halbmarathon, Marathon und jede andere Distanz.",
+  keywords: [
+    "Pace Rechner",
+    "Lauftempo berechnen",
+    "Pace berechnen",
+    "Zielzeit berechnen",
+    "Marathon Pace",
+    "Halbmarathon Pace",
+    "Laufzeit berechnen",
+    "Pace Kalkulator",
+  ],
+  alternates: {
+    canonical: "https://pace-planer.de",
+  },
+  openGraph: {
+    title: "Pace Rechner – Lauftempo, Splits & Zielzeit berechnen",
+    description:
+      "Pace, Splits Zielzeit oder Distanz berechnen – kostenlos, werbefrei und ohne Tracking. Für 5K, 10K, Halbmarathon und Marathon.",
+    url: "https://pace-planer.de",
+    siteName: "Pace Planer",
+    locale: "de_DE",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

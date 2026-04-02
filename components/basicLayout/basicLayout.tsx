@@ -535,32 +535,32 @@ export default function BasicLayoutComponent() {
             </div>
           )}
         </div>
-        {/* TABLE panel — folds open below the display like the inside of a calculator cover */}
-        <div className="w-11/12">
-          {/* Hinge strip — always visible */}
+        {/* TABLE panel — slides open below the display, floating over controls */}
+        <div className="w-11/12" style={{ position: "relative" }}>
+          {/* Hinge strip — always visible, anchors the panel */}
           <div
-            className="mb-2"
             style={{
               height: "5px",
               background:
                 "repeating-linear-gradient(90deg, transparent, transparent 4px, #1a2a3a 4px, #1a2a3a 8px)",
             }}
           />
-          {/* Sliding content */}
+          {/* Sliding content — absolutely positioned, overlays controls below */}
           <div
             style={{
+              position: "absolute",
+              top: "5px",
+              left: 0,
+              right: 0,
+              zIndex: 10,
               maxHeight: tableOpen ? "300px" : "0px",
               opacity: tableOpen ? 1 : 0,
               overflow: "hidden",
               transition: "max-height 0.35s ease, opacity 0.25s ease",
+              background: "#0f172a",
+              borderRadius: "0 0 8px 8px",
             }}
           >
-            <div
-              style={{
-                background: "#0f172a",
-                borderRadius: "0 0 8px 8px",
-              }}
-            >
               <div className="px-3 pb-3 pt-1.5">
                 {/* Printed header label */}
                 <p
@@ -635,7 +635,6 @@ export default function BasicLayoutComponent() {
                   )}
                 </div>
               </div>
-            </div>
           </div>
         </div>
         {/* Endpoint selection buttons */}

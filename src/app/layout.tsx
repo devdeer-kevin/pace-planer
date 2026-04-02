@@ -8,9 +8,10 @@ import Logo from "./assets/Pace-Planer-Logo.svg";
 import { Info } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Pace Planer - Die Pace Rechner App",
+  title:
+    "Pace Rechner – Lauftempo & Zielzeit werbefrei berechnen | Pace Planer",
   description:
-    "Berechne kostenlos, ohne Werbung und Cookie-Tracking, auf Grundlage deiner Pace deine Ziellaufzeit, mit dieser benutzerfreundlichen App für 5k, 10k, Halbmarathon, Marathon und mehr.",
+    "Pace, Zielzeit oder Distanz berechnen – kostenlos, werbefrei und ohne Tracking. Für 5K, 10K, Halbmarathon, Marathon und jede andere Distanz.",
 };
 
 export default function RootLayout({

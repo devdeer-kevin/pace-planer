@@ -68,11 +68,14 @@ function PaceTable({ content }: { content: PaceTableContent }) {
         <table className="w-full text-sm text-slate-400 border-collapse">
           <thead>
             <tr className="text-slate-600 border-b border-slate-700">
-              <th className="text-left py-2 pr-4 font-normal">Pace</th>
-              <th className="text-right py-2 px-4 font-normal">5 km</th>
-              <th className="text-right py-2 px-4 font-normal">10 km</th>
-              <th className="text-right py-2 px-4 font-normal">Halbmarathon</th>
-              <th className="text-right py-2 pl-4 font-normal">Marathon</th>
+              <th className="text-left py-2 pr-2 sm:pr-4 font-normal">Pace</th>
+              <th className="text-right py-2 px-2 sm:px-4 font-normal">5 km</th>
+              <th className="text-right py-2 px-2 sm:px-4 font-normal">10 km</th>
+              <th className="text-right py-2 px-2 sm:px-4 font-normal">
+                <span className="sm:hidden">HM</span>
+                <span className="hidden sm:inline">Halbmarathon</span>
+              </th>
+              <th className="text-right py-2 pl-2 sm:pl-4 font-normal">Marathon</th>
             </tr>
           </thead>
           <tbody>
@@ -81,11 +84,11 @@ function PaceTable({ content }: { content: PaceTableContent }) {
                 key={row.pace}
                 className="border-b border-slate-800 hover:text-slate-300 transition-colors"
               >
-                <td className="py-2 pr-4 text-yellow-400">{row.pace}</td>
-                <td className="py-2 px-4 text-right">{row.km5}</td>
-                <td className="py-2 px-4 text-right">{row.km10}</td>
-                <td className="py-2 px-4 text-right">{row.half}</td>
-                <td className="py-2 pl-4 text-right">{row.marathon}</td>
+                <td className="py-2 pr-2 sm:pr-4 text-yellow-400">{row.pace}</td>
+                <td className="py-2 px-2 sm:px-4 text-right">{row.km5}</td>
+                <td className="py-2 px-2 sm:px-4 text-right">{row.km10}</td>
+                <td className="py-2 px-2 sm:px-4 text-right">{row.half}</td>
+                <td className="py-2 pl-2 sm:pl-4 text-right">{row.marathon}</td>
               </tr>
             ))}
           </tbody>
@@ -117,7 +120,7 @@ const sections = [
 
 export default function Guide() {
   return (
-    <div className="max-w-3xl ">
+    <div className="max-w-3xl">
       <h1 className="text-slate-500 text-left text-xl">
         Lauftempo verstehen – Guide
       </h1>

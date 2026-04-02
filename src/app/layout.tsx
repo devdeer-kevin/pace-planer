@@ -63,7 +63,7 @@ export default function RootLayout({
                 className="flex flex-row gap-1 font-mono items-center justify-center text-slate-600 text-sm hover:text-yellow-400"
               >
                 <Book className="h-5 w-5" />
-                Zum Guide
+                Guide
               </Link>
               <Link
                 href="/info"
